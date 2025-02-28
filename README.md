@@ -1,8 +1,93 @@
-# React + Vite
+My Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a personal portfolio website built using React, Vite, and Tailwind CSS. It showcases my projects, skills, and contact information in a responsive and visually appealing layout.
 
-Currently, two official plugins are available:
+Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Dark Mode Toggle: Switch between light and dark themes.
+
+Responsive Navigation: Mobile-friendly menu with smooth scrolling.
+
+Projects Showcase: Display projects with images and descriptions.
+
+Social Links: Quick access to GitHub, LinkedIn, and other social profiles.
+
+Animated UI: Smooth transitions and hover effects.
+
+Tech Stack
+
+Frontend: React, Vite
+
+Styling: Tailwind CSS
+
+Icons: Lucide-react
+
+Installation
+
+To set up the project locally, follow these steps:
+
+Prerequisites
+
+Ensure you have Node.js and npm installed.
+
+Clone the Repository
+
+git clone https://github.com/Prathisha-M/my-Portfolio.git
+cd my-Portfolio
+
+Install Dependencies
+
+npm install
+
+Start the Development Server
+
+npm run dev
+
+Build for Production
+
+npm run build
+
+Preview Production Build
+
+npm run preview
+
+Project Structure
+
+my-Portfolio/
+├── src/
+│   ├── assets/          # Images and icons
+│   ├── components/      # Reusable React components
+│   ├── App.jsx          # Main application file
+│   ├── main.jsx         # Entry point
+├── public/              # Static files
+├── index.html           # Root HTML file
+├── tailwind.config.js   # Tailwind configuration
+├── vite.config.js       # Vite configuration
+├── package.json         # Project metadata and dependencies
+├── README.md            # Project documentation
+
+Customization
+
+Update src/assets/ with your own images.
+
+Modify the colors and styles in tailwind.config.js.
+
+Add or edit content in App.jsx.
+
+Deployment
+
+To deploy the project:
+
+npm run build
+
+Upload the dist/ folder to a hosting service like Vercel, Netlify, or GitHub Pages.
+
+Contact
+
+Feel free to reach out via:
+
+GitHub: Prathisha-M
+
+LinkedIn: LinkedIn Profile
+
+Email: prathishamurugesan@gmail.com

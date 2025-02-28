@@ -112,7 +112,7 @@ const App = () => {
               justifyContent: "center",
               fontWeight: 700
             }}>P</span>
-            <span>Prathisha</span>
+            <span>My Portfolio</span>
           </a>
         </div>
         
@@ -787,8 +787,7 @@ const App = () => {
           margin: "0 auto 2rem",
           lineHeight: 1.6
         }}>
-          Feel free to reach out for collaborations or just a friendly hello. 
-          I'm always open to discussing new projects and ideas.
+          I’m always open to collaborating on new projects and ideas. Feel free to reach out to discuss potential opportunities!
         </p>
         
         <a href="mailto:prathishamurugesan@gmail.com" style={{ 
