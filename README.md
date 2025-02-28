@@ -1,58 +1,63 @@
-My Portfolio Website
+# My Portfolio Website
 
 This is a personal portfolio website built using React, Vite, and Tailwind CSS. It showcases my projects, skills, and contact information in a responsive and visually appealing layout.
 
-Features
+## Features
 
-Dark Mode Toggle: Switch between light and dark themes.
+- **Dark Mode Toggle:** Switch between light and dark themes.
+- **Responsive Navigation:** Mobile-friendly menu with smooth scrolling.
+- **Projects Showcase:** Display projects with images and descriptions.
+- **Social Links:** Quick access to GitHub, LinkedIn, and other social profiles.
+- **Animated UI:** Smooth transitions and hover effects.
 
-Responsive Navigation: Mobile-friendly menu with smooth scrolling.
+## Tech Stack
 
-Projects Showcase: Display projects with images and descriptions.
+- **Frontend:** React, Vite
+- **Styling:** Tailwind CSS
+- **Icons:** Lucide-react
 
-Social Links: Quick access to GitHub, LinkedIn, and other social profiles.
-
-Animated UI: Smooth transitions and hover effects.
-
-Tech Stack
-
-Frontend: React, Vite
-
-Styling: Tailwind CSS
-
-Icons: Lucide-react
-
-Installation
+## Installation
 
 To set up the project locally, follow these steps:
 
-Prerequisites
+### Prerequisites
 
 Ensure you have Node.js and npm installed.
 
-Clone the Repository
+### Clone the Repository
 
+```bash
 git clone https://github.com/Prathisha-M/my-Portfolio.git
 cd my-Portfolio
+```
 
-Install Dependencies
+### Install Dependencies
 
+```bash
 npm install
+```
 
-Start the Development Server
+### Start the Development Server
 
+```bash
 npm run dev
+```
 
-Build for Production
+### Build for Production
 
+```bash
 npm run build
+```
 
-Preview Production Build
+### Preview Production Build
 
+```bash
 npm run preview
+```
 
-Project Structure
+## Project Structure
 
+```plaintext
 my-Portfolio/
 ├── src/
 │   ├── assets/          # Images and icons
@@ -65,29 +70,28 @@ my-Portfolio/
 ├── vite.config.js       # Vite configuration
 ├── package.json         # Project metadata and dependencies
 ├── README.md            # Project documentation
+```
 
-Customization
+## Customization
 
-Update src/assets/ with your own images.
+- Update `src/assets/` with your own images.
+- Modify the colors and styles in `tailwind.config.js`.
+- Add or edit content in `App.jsx`.
 
-Modify the colors and styles in tailwind.config.js.
-
-Add or edit content in App.jsx.
-
-Deployment
+## Deployment
 
 To deploy the project:
 
+```bash
 npm run build
+```
 
-Upload the dist/ folder to a hosting service like Vercel, Netlify, or GitHub Pages.
+Upload the `dist/` folder to a hosting service like Vercel, Netlify, or GitHub Pages.
 
-Contact
+## Contact
 
 Feel free to reach out via:
 
-GitHub: Prathisha-M
-
-LinkedIn: LinkedIn Profile
-
-Email: prathishamurugesan@gmail.com
+- **GitHub:** [Prathisha-M](https://github.com/Prathisha-M)
+- **LinkedIn:** [LinkedIn Profile](https://www.linkedin.com/in/prathisha-m)
+- **Email:** prathishamurugesan@gmail.com
