@@ -369,7 +369,7 @@ const App = () => {
           > 
             <span style={{ flexShrink: 0 }}>🏢</span>  AK Infopark Private Limited
           </a> 
-        </strong>Full-Stack Developer
+        </strong>React Full-Stack Developer Intern
         <span style={{ 
                     display: "inline-block", 
                     marginLeft: "0.5rem",
