@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Moon, Sun, Home, User, Briefcase, Mail,Building2 , Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import MobileDark from './assets/mobile_Dark.png';
 import MobileLight from './assets/mobile_Light.png';
+import ProjectCarousel from './ProjectCarousel';
 const App = () => {
   const [isDarkMode, setDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -582,121 +583,7 @@ const App = () => {
 </button>
       </section>
       
-      <section id="projects" style={{ padding: "5rem 1.5rem", maxWidth: "1200px", margin: "0 auto" }}>
-  <h2 style={{ fontSize: "2.5rem", fontWeight: 700, color: theme.primary, textAlign: "center", marginBottom: "3rem" }}>Projects</h2>
-  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "4rem" }}>
-    {[
-      {
-        "title": "📦 CRUD Operations in React Native",
-        "description": "Built a React Native app with Create, Read, Update, Delete functionality. Integrated Express.js and SQL for backend operations.",
-        "link": "https://github.com/Prathisha-M/CRUD-operation-in-React-Native",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-crudapp-mobiledevelopment-activity-7217807043187916800-7URy"
-      },
-      {
-        "title": "🖼️ WhatsApp Profile Picture Editor Clone",
-        "description": "Developed a WhatsApp-like profile picture editor with cropping and filtering options. Used React Native Reanimated for smooth animations.",
-        "link": "https://github.com/Prathisha-M/Whatsapp-Profile-Clone",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-mobileappdevelopment-smartzensolutions-activity-7219347441391685632-8oGe"
-      },
-      {
-        "title": "📤 File Uploader with WhatsApp Notification",
-        "description": "Created an API-based file uploader with Multer (Express.js). Sent a WhatsApp notification after successful upload.",
-        "link": "https://github.com/Prathisha-M/file-uploader-with-whatsapp-msg-notifier",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-appdevelopment-api-activity-7220069113895776258-hT1Q"
-      },
-      {
-        "title": "🔢 WhatsApp OTP-Based Login System",
-        "description": "Implemented an OTP-based authentication system via WhatsApp API. Integrated React Native OTP Input for seamless login.",
-        "link": "https://github.com/Prathisha-M/Login-via-WhatsappOTP",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-appdevelopment-whatsapplogin-activity-7225116790425542656-c049"
-      },
-      {
-        "title": "🛒 Shopping Cart with Redux",
-        "description": "Built a React Native shopping app with Redux for state management. Implemented cart functionality and push notifications.",
-        "link": "https://github.com/Prathisha-M/Redux-Shopping-cart-and-Drawer-Navigation",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-redux-mobileappdevelopment-activity-7224392131971362817-t0Q0"
-      },
-      {
-        "title": "🔔 React Native Login with Push Notification",
-        "description": "Developed a login system with React Native Push Notifications. Integrated Firebase for authentication and notifications.",
-        "link": "https://github.com/Prathisha-M/ReactNative-login-Notification-store-deviceId",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-mobileappdevelopment-studentauthentication-activity-7229075218109972480-m1wI"
-      },
-      {
-        "title": "💸 PayGuard with Voice Transaction Alerts",
-        "description": "Developed a React Native app that listens for bank-related SMS alerts, filters key transaction messages, and converts them into speech for real-time notifications. Includes play and stop controls for voice alerts.",
-        "link": "https://github.com/Prathisha-M/react-native-sms-alerts-to-speech",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-mobileappdevelopment-fintech-activity-7231327561849397250-tU4j"
-      },
-      {
-        "title": "🌍 Business Masters of World",
-        "description": "A platform connecting business professionals, enabling seamless business interactions and maintaining a 5-star rating system for credibility."
-      },
-      {
-        "title": "🩺 Doctor-Patient App with Location & Chat",
-        "description": "Created an app for patients to connect with doctors, featuring a chat system using WebSockets and an appointment booking system. Integrated Google Maps API for location-based appointments.",
-        "linkedin": "https://www.linkedin.com/posts/prathisha-m_reactnative-hybridapp-doctorpatientapp-activity-7300919187546198016-SJCj"
-      }
-    ].map((project, index) => (
-      <div 
-        key={index} 
-        style={{ 
-          backgroundColor: theme.card, 
-          borderLeft: `4px solid ${theme.secondary}`, 
-          borderRadius: "0.5rem", 
-          padding: "1.5rem", 
-          boxShadow: `0 10px 15px -3px ${theme.accent}30`, 
-          transition: "transform 0.3s ease", 
-          height: "100%", 
-          display: "flex", 
-          flexDirection: "column",
-        }} 
-        className="hover:transform hover:scale-105"
-      >
-        <h3 style={{ fontSize: "1.25rem", fontWeight: 600, color: theme.primary, marginBottom: "0.75rem" }}>{project.title}</h3>
-        <p style={{ color: theme.textLight, lineHeight: 1.6, flex: 1 }}>{project.description}</p>
-        {project.title !== "🌍 Business Masters of World" && (
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
-            <a 
-              href={project.linkedin} 
-              style={{ 
-                color: theme.primary, 
-                borderBottom: `2px solid ${theme.secondary}`, 
-                paddingBottom: "0.25rem", 
-                textDecoration: "none", 
-                fontWeight: 500, 
-                display: "inline-block"
-              }} 
-              className="hover:opacity-80"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Details
-            </a>
-            {project.link && (
-              <a 
-                href={project.link} 
-                style={{ 
-                  color: theme.primary, 
-                  borderBottom: `2px solid ${theme.secondary}`, 
-                  paddingBottom: "0.25rem", 
-                  textDecoration: "none", 
-                  fontWeight: 500, 
-                  display: "inline-block"
-                }} 
-                className="hover:opacity-80"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                &lt;code&gt;
-              </a>
-            )}
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</section>
+      <ProjectCarousel theme={theme} />
       <section style={{ 
         backgroundColor: theme.card,
         padding: "5rem 1.5rem"
