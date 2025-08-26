@@ -63,10 +63,18 @@ const App = () => {
         theme={theme} 
         isScrolled={isScrolled} 
       />
-      <About theme={theme} isDarkMode={isDarkMode} />
-      <Skills theme={theme} isDarkMode={isDarkMode} />
-      <Projects theme={theme} isDarkMode={isDarkMode} />
-      <Contact theme={theme} isDarkMode={isDarkMode} />
+      <div id="about">
+  <About theme={theme} isDarkMode={isDarkMode} />
+</div>
+<div id="skills">
+  <Skills theme={theme} isDarkMode={isDarkMode} />
+</div>
+<div id="projects">
+  <Projects theme={theme} isDarkMode={isDarkMode} />
+</div>
+<div id="contact">
+  <Contact theme={theme} isDarkMode={isDarkMode} />
+</div>
       
       <Footer 
         isDarkMode={isDarkMode} 

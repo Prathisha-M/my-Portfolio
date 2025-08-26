@@ -76,7 +76,7 @@ const Contact = ({ theme, isDarkMode }) => {
         gap: "2.5rem"
       }}>
         {/* Contact Form */}
-        <form onSubmit={handleSubmit} style={{
+        {/* <form onSubmit={handleSubmit} style={{
           width: "100%",
           maxWidth: "600px",
           padding: "2.5rem",
@@ -192,11 +192,11 @@ const Contact = ({ theme, isDarkMode }) => {
           }}>
             Send Message
           </button>
-        </form>
+        </form> */}
         
-        <div style={{ fontSize: "1.1rem", color: theme.textLight, margin: "1rem 0" }}>
+        {/* <div style={{ fontSize: "1.1rem", color: theme.textLight, margin: "1rem 0" }}>
           OR
-        </div>
+        </div> */}
         
         {/* Direct Contact Options */}
         <div style={{

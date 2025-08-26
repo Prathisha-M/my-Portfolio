@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Skills = ({ theme, isDarkMode }) => {
+const Skills = ({ theme, isDarkMode, id }) => {
   const skillCategories = [
     {
       title: "Frontend Development",
