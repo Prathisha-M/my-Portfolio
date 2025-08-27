@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { ExternalLink, Github, Play, Apple, MapPin, Star, Users, Calendar } from "lucide-react";
+import { ExternalLink, Github, MapPin, Star, Users, Calendar } from "lucide-react";
+import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
+import SmartLaundryBusinessBanner from "./assets/SmartLaundryBusinessBanner.jpeg";
+import TPVBanner from "./assets/TPVBanner.jpg";
+import CollegeBusBanner from "./assets/CollegeBusBanner.jpg";
+import apple from "./assets/apple.png";
+import play from "./assets/play.png";
 
 const Projects = ({ theme, isDarkMode }) => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -16,10 +22,20 @@ const Projects = ({ theme, isDarkMode }) => {
         "Intuitive UI/UX with responsive design",
         "Scheduling, order tracking, and status updates"
       ],
-      technologies: ["React Native", "Google Maps API", "Firebase", "JavaScript"],
+      technologies: [
+    "React Native",
+    "Google Maps API",
+    "Firebase",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "Xcode",
+    "Android Studio"
+  ],
       playStoreLink: "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
       appStoreLink: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
-      image: "https://play-lh.googleusercontent.com/FdZRkVVWRcSpd8UAMXTSqFjo6jsIXwBub8EfnSJvHerwwok1svg1BW0YtD4FLbvMmIjk=w416-h235-rw",
+      image: SmartLaundryBanner,
       stats: {
         downloads: "1K+",
         rating: 4.5,
@@ -38,10 +54,20 @@ const Projects = ({ theme, isDarkMode }) => {
         "WhatsApp integration for billing summaries",
         "Dynamic pricing and service configuration"
       ],
-      technologies: ["React Native", "Google Maps API", "Firebase", "Chart.js"],
+      technologies: [
+    "React Native",
+    "Google Maps API",
+    "Firebase",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "Xcode",
+    "Android Studio"
+  ],
       playStoreLink: "https://play.google.com/store/apps/details?id=com.smartlaundrybusiness&hl=en_IN",
       appStoreLink: "https://apps.apple.com/in/app/smart-laundry-business/id6749540717",
-      image: "https://play-lh.googleusercontent.com/L2G-25aETHKH_Uz0YaKHEHNhWtkyIH8RgHhUNJxEoxxgQQpNtv6JeAkZXk9BKOIfd6Q=w416-h235-rw",
+      image: SmartLaundryBusinessBanner,
       stats: {
         downloads: "5K+",
         rating: 4.7,
@@ -60,9 +86,20 @@ const Projects = ({ theme, isDarkMode }) => {
         "Payment gateway integration",
         "SQL database with connection pooling"
       ],
-      technologies: ["React Native", "SQL", "Node.js", "Payment Gateway"],
+      technologies: [
+    "React Native",
+    "Google Maps API",
+    "Firebase",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "Xcode",
+    "Android Studio",
+    "Payment Gateway"
+  ],
       playStoreLink: "https://play.google.com/store/apps/details?id=com.tpv_app&hl=en_IN",
-      image: "https://play-lh.googleusercontent.com/VCW6jQyUkmHjsdFWbR96siI3jaXRyPdeCihb6QdrNDUMKkMKtPCdpuZnJBoaTdRs90U=w416-h235-rw",
+      image: TPVBanner,
       stats: {
         downloads: "2K+",
         rating: 4.3,
@@ -71,7 +108,7 @@ const Projects = ({ theme, isDarkMode }) => {
     },
     {
       id: 4,
-      title: "College Bus Tracking System",
+      title: "College Bus Tracking App",
       description: "Android application to track college bus location in real-time with notifications.",
       category: "mobile",
       features: [
@@ -81,7 +118,7 @@ const Projects = ({ theme, isDarkMode }) => {
         "User-friendly interface with timely alerts"
       ],
       technologies: ["Android Studio", "Firebase", "Google Maps API", "Java"],
-      image: "https://topresearchjournal.wordpress.com/wp-content/uploads/2019/04/bus2.jpg",
+      image: CollegeBusBanner,
       stats: {
         users: "500+",
         rating: 4.8
@@ -177,7 +214,7 @@ const Projects = ({ theme, isDarkMode }) => {
                       transition: "all 0.3s ease"
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = "#3B82F6";
+                      e.target.style.background = "#000";
                       e.target.style.transform = "scale(1.1)";
                     }}
                     onMouseLeave={(e) => {
@@ -185,7 +222,7 @@ const Projects = ({ theme, isDarkMode }) => {
                       e.target.style.transform = "scale(1)";
                     }}
                   >
-                    <Play size={16} />
+                    <img src={play} alt="Play Store" style={{ width: "16px", height: "16px" }} />
                   </a>
                 )}
                 {project.appStoreLink && (
@@ -212,13 +249,12 @@ const Projects = ({ theme, isDarkMode }) => {
                       e.target.style.transform = "scale(1)";
                     }}
                   >
-                    <Apple size={16} />
+                    <img src={apple} alt="App Store" style={{ width: "16px", height: "16px" }} />
                   </a>
                 )}
               </div>
             </div>
 
-            {/* Project content */}
             <div style={{ padding: "1.5rem", flexGrow: 1, display: "flex", flexDirection: "column" }}>
               <h3 style={{ 
                 fontSize: "1.5rem", 
@@ -236,57 +272,6 @@ const Projects = ({ theme, isDarkMode }) => {
               }}>
                 {project.description}
               </p>
-              
-              {/* Stats */}
-              {/* {project.stats && (
-                <div style={{
-                  display: "flex",
-                  gap: "1rem",
-                  marginBottom: "1rem",
-                  flexWrap: "wrap"
-                }}>
-                  {project.stats.downloads && (
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                      fontSize: "0.9rem",
-                      color: theme.textLight
-                    }}>
-                      <Download size={16} />
-                      <span>{project.stats.downloads}</span>
-                    </div>
-                  )}
-                  
-                  {project.stats.rating && (
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                      fontSize: "0.9rem",
-                      color: theme.textLight
-                    }}>
-                      <Star size={16} fill="currentColor" />
-                      <span>{project.stats.rating}</span>
-                    </div>
-                  )}
-                  
-                  {project.stats.users && (
-                    <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                      fontSize: "0.9rem",
-                      color: theme.textLight
-                    }}>
-                      <Users size={16} />
-                      <span>{project.stats.users}</span>
-                    </div>
-                  )}
-                </div>
-              )} */}
-              
-              {/* Features list */}
               <div style={{ marginBottom: "1.5rem", flexGrow: 1 }}>
                 <h4 style={{ 
                   fontSize: "1rem", 
@@ -308,7 +293,6 @@ const Projects = ({ theme, isDarkMode }) => {
                 </ul>
               </div>
               
-              {/* Technologies */}
               <div style={{ marginBottom: "1.5rem" }}>
                 <h4 style={{ 
                   fontSize: "1rem", 

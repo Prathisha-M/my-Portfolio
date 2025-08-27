@@ -58,8 +58,7 @@ const Header = ({ isDarkMode, setDarkMode, theme, isScrolled }) => {
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/Prathisha-M", icon: <Github size={20} />, color: "#333" },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/prathisha-m", icon: <Linkedin size={20} />, color: "#0077b5" },
-    { name: "Gmail", href: "mailto:prathishamurugesan@gmail.com", icon: <Mail size={20} />, color: "#ea4335" },
-    { name: "Instagram", href: "#", icon: <Instagram size={20} />, color: "#e4405f" }
+    { name: "Gmail", href: "mailto:prathishamurugesan@gmail.com", icon: <Mail size={20} />, color: "#ea4335" }
   ];
 
   return (

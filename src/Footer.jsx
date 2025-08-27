@@ -22,12 +22,6 @@ const Footer = ({ isDarkMode, theme }) => {
       icon: Mail,
       color: "#EA4335"
     },
-    { 
-      name: "Instagram", 
-      href: "#",
-      icon: Instagram,
-      color: "#E4405F"
-    }
   ];
 
   return (
