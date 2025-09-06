@@ -321,7 +321,6 @@ const Projects = ({ theme, isDarkMode }) => {
                 </div>
               </div>
               
-              {/* Project links */}
               <div style={{ 
                 display: "flex", 
                 gap: "1rem",
@@ -397,7 +396,6 @@ const Projects = ({ theme, isDarkMode }) => {
   );
 };
 
-// Download icon component (since it's not in lucide-react)
 const Download = ({ size }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 

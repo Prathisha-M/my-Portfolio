@@ -301,7 +301,6 @@ const Header = ({ isDarkMode, setDarkMode, theme, isScrolled }) => {
           }}
           className="md:hidden"
         >
-          {/* Mobile Navigation Items */}
           {navItems.map((item, index) => (
             <a
               key={item.name}
