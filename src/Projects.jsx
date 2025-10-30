@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { ExternalLink, Github, MapPin, Star, Users, Calendar } from "lucide-react";
+import SmartIronBusiness from "./assets/SmartIronBusiness.jpg";
+import SmartIronXpress from "./assets/SmartIronXpress.jpg";
 import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
 import SmartLaundryBusinessBanner from "./assets/SmartLaundryBusinessBanner.jpeg";
 import TPVBanner from "./assets/TPVBanner.jpg";
@@ -11,18 +13,20 @@ const Projects = ({ theme, isDarkMode }) => {
   const [activeFilter, setActiveFilter] = useState("all");
   
   const projects = [
-    {
-      id: 1,
-      title: "Smart Laundry App",
-      description: "A user-friendly laundry pickup and delivery mobile app that enhances customer experience and service efficiency.",
-      category: "mobile",
-      features: [
-        "Google Maps API integration for real-time tracking",
-        "Firebase Cloud Messaging for push notifications",
-        "Intuitive UI/UX with responsive design",
-        "Scheduling, order tracking, and status updates"
-      ],
-      technologies: [
+{
+  id: 1,
+  title: "Smart Iron Business",
+  description:
+    "An all-in-one ironing service management app built for vendors, delivery partners, and administrators. It enables vendors to manage and update ironing orders, mark them as ready, and coordinate with delivery partners who use integrated map features for efficient pickup and delivery to customers, ensuring a smooth and reliable ironing service experience.",
+  category: "mobile",
+  features: [
+    "Google Maps API integration for real-time pickup and delivery tracking",
+    "Firebase Cloud Messaging for instant notifications and status updates",
+    "Intuitive UI/UX with a responsive and seamless user experience",
+    "Order scheduling, progress tracking, and delivery status management",
+    "Role-based dashboards for vendors, delivery partners, and admins"
+  ],
+  technologies: [
     "React Native",
     "Google Maps API",
     "Firebase",
@@ -33,18 +37,87 @@ const Projects = ({ theme, isDarkMode }) => {
     "Xcode",
     "Android Studio"
   ],
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
-      appStoreLink: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
-      image: SmartLaundryBanner,
-      stats: {
-        downloads: "1K+",
-        rating: 4.5,
-        users: "1K+"
-      }
-    },
+  playStoreLink:
+    "https://play.google.com/store/apps/details?id=com.smartironbusiness",
+  // appStoreLink: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
+  image: SmartIronBusiness,
+  stats: {
+    downloads: "1K+",
+    rating: 4.5,
+    users: "1K+"
+  }
+},
+{
+  id: 2,
+  title: "Smart Iron Xpress",
+  description:
+    "A convenient ironing service app for customers to easily place orders by selecting clothes to be ironed. Customers can track the progress of their orders in real time and receive updates from pickup to delivery, ensuring a smooth and reliable service experience.",
+  category: "mobile",
+  features: [
+    "Simple order placement with clothing selection options",
+    "Real-time order tracking using Google Maps API",
+    "Firebase Cloud Messaging for live status updates and notifications",
+    "User-friendly and responsive UI/UX design"
+  ],
+  technologies: [
+    "React Native",
+    "Google Maps API",
+    "Firebase",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "Xcode",
+    "Android Studio"
+  ],
+  playStoreLink:
+    "https://play.google.com/store/apps/details?id=com.smartironxpress",
+  appStoreLink:
+    "https://apps.apple.com/in/app/smart-iron-xpress/id6754585989",
+  image: SmartIronXpress,
+  stats: {
+    downloads: "1K+",
+    rating: 4.5,
+    users: "1K+"
+  }
+},
+{
+  id: 3,
+  title: "Smart Laundry",
+  description:
+    "A convenient and reliable laundry service app that allows customers to place orders with nearby laundries and receive real-time updates on their order status, ensuring a smooth, efficient, and satisfying experience from pickup to delivery.",
+  category: "mobile",
+  features: [
+    "Nearby laundry selection using Google Maps API",
+    "Real-time order tracking and status updates",
+    "Firebase Cloud Messaging for instant notifications",
+    "Clean and responsive UI/UX for easy navigation"
+  ],
+  technologies: [
+    "React Native",
+    "Google Maps API",
+    "Firebase",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "Xcode",
+    "Android Studio"
+  ],
+  playStoreLink:
+    "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
+  appStoreLink:
+    "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
+  image: SmartLaundryBanner,
+  stats: {
+    downloads: "1K+",
+    rating: 4.5,
+    users: "1K+"
+  }
+},
     {
-      id: 2,
-      title: "Smart Laundry Business App",
+      id: 4,
+      title: "Smart Laundry Business",
       description: "Business analytics app with order summaries, interactive charts, and delivery management features.",
       category: "mobile",
       features: [
@@ -75,8 +148,8 @@ const Projects = ({ theme, isDarkMode }) => {
       }
     },
     {
-      id: 3,
-      title: "TPV App",
+      id: 5,
+      title: "TPV",
       description: "Mobile app for business networking, enabling professionals to connect and manage chapters.",
       category: "mobile",
       features: [
@@ -99,6 +172,7 @@ const Projects = ({ theme, isDarkMode }) => {
     "Payment Gateway"
   ],
       playStoreLink: "https://play.google.com/store/apps/details?id=com.tpv_app&hl=en_IN",
+      appStoreLink: "https://apps.apple.com/in/app/tpv-app/id6752292667",
       image: TPVBanner,
       stats: {
         downloads: "2K+",
@@ -107,8 +181,8 @@ const Projects = ({ theme, isDarkMode }) => {
       }
     },
     {
-      id: 4,
-      title: "College Bus Tracking App",
+      id: 6,
+      title: "College Bus Tracking",
       description: "Android application to track college bus location in real-time with notifications.",
       category: "mobile",
       features: [

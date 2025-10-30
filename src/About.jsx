@@ -34,23 +34,31 @@ const About = ({ theme, isDarkMode }) => {
       company: "SmartZEN Solutions Private Limited",
       role: "Software Developer",
       duration: "06/2024 - Present",
-      location: "Remote",
+      location: "Chennai, India",
       website: "https://smartzensolutions.com/",
       achievements: [
-        "Implemented push notifications for Android using react-native-push-notification",
-        "Integrated Google Maps for location-based services",
-        "Developed a real-time chat feature with authentication",
-        "Worked on user authentication and secure API development",
-        "Designed and optimized SQL database queries for efficient data retrieval"
-      ],
-      skills: ["React Native", "Node.js", "SQL", "Authentication", "Google Maps API"]
+  "Implemented push notifications for Android using react-native-push-notification",
+  "Integrated Google Maps APIs with full map functionality including markers, routes, and geolocation",
+  "Configured and implemented Google Login authentication flow for secure user access",
+  "Developed a real-time chat feature with authentication",
+  "Worked on user authentication and secure API development",
+  "Designed and optimized SQL database queries for efficient data retrieval"
+],
+      skills: [
+  "React Native",
+  "Node.js",
+  "Firebase (Authentication, Firestore, Cloud Messaging)",
+  "SQL",
+  "Authentication & API Security",
+  "Google Maps API Integration"
+]
     },
     {
       id: 2,
       company: "AK Infopark Private Limited",
       role: "React Full-Stack Developer Intern",
       duration: "03/2024 - 04/2024",
-      location: "Chennai, India",
+      location: "Nagercoil, India",
       website: "https://www.akinfopark.com/",
       achievements: [
         "Developed a simple e-commerce website for product listing",
