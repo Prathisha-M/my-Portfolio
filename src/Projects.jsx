@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExternalLink, Github, MapPin, Star, Users, Calendar } from "lucide-react";
+import { ExternalLink, Github, Star } from "lucide-react";
 import SmartIronBusiness from "./assets/SmartIronBusiness.jpg";
 import SmartIronXpress from "./assets/SmartIronXpress.jpg";
 import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
@@ -9,483 +9,345 @@ import CollegeBusBanner from "./assets/CollegeBusBanner.jpg";
 import apple from "./assets/apple.png";
 import play from "./assets/play.png";
 
-const Projects = ({ theme, isDarkMode }) => {
-  const [activeFilter, setActiveFilter] = useState("all");
-  
-  const projects = [
-{
-  id: 1,
-  title: "Smart Iron Business",
-  description:
-    "An all-in-one ironing service management app built for vendors, delivery partners, and administrators. It enables vendors to manage and update ironing orders, mark them as ready, and coordinate with delivery partners who use integrated map features for efficient pickup and delivery to customers, ensuring a smooth and reliable ironing service experience.",
-  category: "mobile",
-  features: [
-    "Google Maps API integration for real-time pickup and delivery tracking",
-    "Firebase Cloud Messaging for instant notifications and status updates",
-    "Intuitive UI/UX with a responsive and seamless user experience",
-    "Order scheduling, progress tracking, and delivery status management",
-    "Role-based dashboards for vendors, delivery partners, and admins"
-  ],
-  technologies: [
-    "React Native",
-    "Google Maps API",
-    "Firebase",
-    "JavaScript",
-    "Node.js",
-    "Express.js",
-    "MySQL",
-    "Xcode",
-    "Android Studio"
-  ],
-  playStoreLink:
-    "https://play.google.com/store/apps/details?id=com.smartironbusiness",
-  // appStoreLink: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
-  image: SmartIronBusiness,
-  stats: {
-    downloads: "1K+",
-    rating: 4.5,
-    users: "1K+"
-  }
-},
-{
-  id: 2,
-  title: "Smart Iron Xpress",
-  description:
-    "A convenient ironing service app for customers to easily place orders by selecting clothes to be ironed. Customers can track the progress of their orders in real time and receive updates from pickup to delivery, ensuring a smooth and reliable service experience.",
-  category: "mobile",
-  features: [
-    "Simple order placement with clothing selection options",
-    "Real-time order tracking using Google Maps API",
-    "Firebase Cloud Messaging for live status updates and notifications",
-    "User-friendly and responsive UI/UX design"
-  ],
-  technologies: [
-    "React Native",
-    "Google Maps API",
-    "Firebase",
-    "JavaScript",
-    "Node.js",
-    "Express.js",
-    "MySQL",
-    "Xcode",
-    "Android Studio"
-  ],
-  playStoreLink:
-    "https://play.google.com/store/apps/details?id=com.smartironxpress",
-  appStoreLink:
-    "https://apps.apple.com/in/app/smart-iron-xpress/id6754585989",
-  image: SmartIronXpress,
-  stats: {
-    downloads: "1K+",
-    rating: 4.5,
-    users: "1K+"
-  }
-},
-{
-  id: 3,
-  title: "Smart Laundry",
-  description:
-    "A convenient and reliable laundry service app that allows customers to place orders with nearby laundries and receive real-time updates on their order status, ensuring a smooth, efficient, and satisfying experience from pickup to delivery.",
-  category: "mobile",
-  features: [
-    "Nearby laundry selection using Google Maps API",
-    "Real-time order tracking and status updates",
-    "Firebase Cloud Messaging for instant notifications",
-    "Clean and responsive UI/UX for easy navigation"
-  ],
-  technologies: [
-    "React Native",
-    "Google Maps API",
-    "Firebase",
-    "JavaScript",
-    "Node.js",
-    "Express.js",
-    "MySQL",
-    "Xcode",
-    "Android Studio"
-  ],
-  playStoreLink:
-    "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
-  appStoreLink:
-    "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
-  image: SmartLaundryBanner,
-  stats: {
-    downloads: "1K+",
-    rating: 4.5,
-    users: "1K+"
-  }
-},
-    {
-      id: 4,
-      title: "Smart Laundry Business",
-      description: "Business analytics app with order summaries, interactive charts, and delivery management features.",
-      category: "mobile",
-      features: [
-        "Business analytics with interactive charts",
-        "Google Maps API for real-time navigation",
-        "Firebase push notifications",
-        "WhatsApp integration for billing summaries",
-        "Dynamic pricing and service configuration"
-      ],
-      technologies: [
-    "React Native",
-    "Google Maps API",
-    "Firebase",
-    "JavaScript",
-    "Node.js",
-    "Express.js",
-    "MySQL",
-    "Xcode",
-    "Android Studio"
-  ],
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.smartlaundrybusiness&hl=en_IN",
-      appStoreLink: "https://apps.apple.com/in/app/smart-laundry-business/id6749540717",
-      image: SmartLaundryBusinessBanner,
-      stats: {
-        downloads: "5K+",
-        rating: 4.7,
-        users: "2K+"
-      }
-    },
-    {
-      id: 5,
-      title: "TPV",
-      description: "Mobile app for business networking, enabling professionals to connect and manage chapters.",
-      category: "mobile",
-      features: [
-        "Secure user authentication with OTP verification",
-        "Star rating system for referrals",
-        "Attendance tracking for meetings",
-        "Payment gateway integration",
-        "SQL database with connection pooling"
-      ],
-      technologies: [
-    "React Native",
-    "Google Maps API",
-    "Firebase",
-    "JavaScript",
-    "Node.js",
-    "Express.js",
-    "MySQL",
-    "Xcode",
-    "Android Studio",
-    "Payment Gateway"
-  ],
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.tpv_app&hl=en_IN",
-      appStoreLink: "https://apps.apple.com/in/app/tpv-app/id6752292667",
-      image: TPVBanner,
-      stats: {
-        downloads: "2K+",
-        rating: 4.3,
-        users: "1K+"
-      }
-    },
-    {
-      id: 6,
-      title: "College Bus Tracking",
-      description: "Android application to track college bus location in real-time with notifications.",
-      category: "mobile",
-      features: [
-        "Real-time bus tracking with Google Maps",
-        "Dual login system for drivers and students",
-        "Push notifications for bus proximity alerts",
-        "User-friendly interface with timely alerts"
-      ],
-      technologies: ["Android Studio", "Firebase", "Google Maps API", "Java"],
-      image: CollegeBusBanner,
-      stats: {
-        users: "500+",
-        rating: 4.8
-      }
-    }
-  ];
+const PROJECTS = [
+  {
+    id: 1,
+    title: "Smart Iron Business",
+    tagline: "Vendor & delivery management",
+    description:
+      "All-in-one ironing service app for vendors, delivery partners, and admins — with integrated maps for efficient pickup & delivery coordination.",
+    category: "mobile",
+    features: [
+      "Google Maps API for real-time tracking",
+      "Firebase Cloud Messaging notifications",
+      "Role-based dashboards for all actors",
+      "Order scheduling & delivery management",
+    ],
+    tech: ["React Native", "Node.js", "Firebase", "MySQL", "Google Maps API"],
+    playStore: "https://play.google.com/store/apps/details?id=com.smartironbusiness",
+    appStore: "https://apps.apple.com/in/app/smart-iron-business/id6755295734",
+    image: SmartIronBusiness,
+    stats: { downloads: "1K+", rating: 4.5 },
+    accent: "#f97316",
+  },
+  {
+    id: 2,
+    title: "Smart Iron Xpress",
+    tagline: "Customer-facing ironing app",
+    description:
+      "Convenient ironing service app where customers place orders, track progress in real-time, and receive seamless updates from pickup to delivery.",
+    category: "mobile",
+    features: [
+      "Simple order placement with clothing selection",
+      "Real-time tracking via Google Maps",
+      "Firebase push notifications",
+      "User-friendly responsive UI",
+    ],
+    tech: ["React Native", "Google Maps API", "Firebase", "Express.js", "MySQL"],
+    playStore: "https://play.google.com/store/apps/details?id=com.smartironxpress",
+    appStore: "https://apps.apple.com/in/app/smart-iron-xpress/id6754585989",
+    image: SmartIronXpress,
+    stats: { downloads: "1K+", rating: 4.5 },
+    accent: "#6056ff",
+  },
+  {
+    id: 3,
+    title: "Smart Laundry",
+    tagline: "On-demand laundry service",
+    description:
+      "Connects customers with nearby laundries and provides real-time order status — from pickup scheduling to delivery confirmation.",
+    category: "mobile",
+    features: [
+      "Nearby laundry discovery via Maps",
+      "Real-time order status updates",
+      "Firebase notifications",
+      "Clean & intuitive navigation",
+    ],
+    tech: ["React Native", "Google Maps API", "Firebase", "Node.js", "MySQL"],
+    playStore: "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
+    appStore: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
+    image: SmartLaundryBanner,
+    stats: { downloads: "1K+", rating: 4.5 },
+    accent: "#10b981",
+  },
+  {
+    id: 4,
+    title: "Smart Laundry Business",
+    tagline: "Analytics & operations dashboard",
+    description:
+      "Business analytics app with interactive charts, order summaries, delivery management, and dynamic pricing configuration for laundry owners.",
+    category: "mobile",
+    features: [
+      "Analytics with interactive charts",
+      "Google Maps for live navigation",
+      "WhatsApp billing summaries",
+      "Dynamic pricing configuration",
+    ],
+    tech: ["React Native", "Firebase", "Google Maps API", "Node.js", "MySQL"],
+    playStore: "https://play.google.com/store/apps/details?id=com.smartlaundrybusiness&hl=en_IN",
+    appStore: "https://apps.apple.com/in/app/smart-laundry-business/id6749540717",
+    image: SmartLaundryBusinessBanner,
+    stats: { downloads: "5K+", rating: 4.7 },
+    accent: "#8b5cf6",
+  },
+  {
+    id: 5,
+    title: "TPV",
+    tagline: "Business networking platform",
+    description:
+      "Mobile app for professional business networking — connecting members, managing chapters, tracking referrals, and handling payments.",
+    category: "mobile",
+    features: [
+      "Secure OTP authentication",
+      "Star rating system for referrals",
+      "Attendance tracking",
+      "Payment gateway integration",
+    ],
+    tech: ["React Native", "Firebase", "Google Maps API", "Node.js", "MySQL", "Payment Gateway"],
+    playStore: "https://play.google.com/store/apps/details?id=com.tpv_app&hl=en_IN",
+    appStore: "https://apps.apple.com/in/app/tpv-app/id6752292667",
+    image: TPVBanner,
+    stats: { downloads: "2K+", rating: 4.3 },
+    accent: "#ec4899",
+  },
+  {
+    id: 6,
+    title: "College Bus Tracking",
+    tagline: "Real-time campus transit",
+    description:
+      "Android app for real-time college bus tracking with dual login for drivers and students, proximity alerts, and Google Maps integration.",
+    category: "mobile",
+    features: [
+      "Real-time tracking with Google Maps",
+      "Dual login: drivers & students",
+      "Push proximity alerts",
+      "User-friendly alert system",
+    ],
+    tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
+    image: CollegeBusBanner,
+    stats: { users: "500+", rating: 4.8 },
+    accent: "#f59e0b",
+  },
+];
 
-  const filteredProjects = activeFilter === "all" 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
+/* ── Tech badge ── */
+const TechBadge = ({ label, isDarkMode }) => (
+  <span style={{
+    display: "inline-block",
+    padding: "0.22rem 0.65rem",
+    borderRadius: "2rem",
+    fontSize: "0.72rem",
+    fontWeight: 600,
+    background: isDarkMode ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.06)",
+    color: isDarkMode ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
+    border: `1px solid ${isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+  }}>{label}</span>
+);
+
+/* ── Store badge ── */
+const StoreBadge = ({ href, icon, label, accent }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer"
+    style={{
+      display: "inline-flex", alignItems: "center", gap: "0.45rem",
+      padding: "0.45rem 1rem",
+      borderRadius: "8px",
+      background: accent + "18",
+      color: accent,
+      border: `1px solid ${accent}30`,
+      fontSize: "0.78rem", fontWeight: 700,
+      textDecoration: "none",
+      transition: "all 0.2s",
+    }}
+    onMouseEnter={(e) => { e.currentTarget.style.background = accent + "28"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+    onMouseLeave={(e) => { e.currentTarget.style.background = accent + "18"; e.currentTarget.style.transform = "translateY(0)"; }}
+  >
+    <img src={icon} alt={label} style={{ width: 14, height: 14 }} />
+    {label}
+  </a>
+);
+
+/* ── Project card ── */
+const ProjectCard = ({ project, isDarkMode, theme }) => {
+  const [imgHov, setImgHov] = useState(false);
 
   return (
-    <section id="projects" style={{ padding: "4rem 1rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-        <h2 style={{ 
-          fontSize: "2.5rem", 
-          fontWeight: "700", 
-          marginBottom: "1rem",
-          background: `linear-gradient(135deg, ${theme.accent}, ${theme.highlight})`,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text"
+    <div style={{
+      background: isDarkMode ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.9)",
+      border: `1px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"}`,
+      borderRadius: "18px",
+      overflow: "hidden",
+      backdropFilter: "blur(12px)",
+      display: "flex", flexDirection: "column",
+      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+      boxShadow: isDarkMode ? "0 4px 20px rgba(0,0,0,0.25)" : "0 4px 16px rgba(0,0,0,0.06)",
+    }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-5px)";
+        e.currentTarget.style.boxShadow = `0 20px 48px ${project.accent}22, 0 0 0 1px ${project.accent}25`;
+        e.currentTarget.style.borderColor = project.accent + "40";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = isDarkMode ? "0 4px 20px rgba(0,0,0,0.25)" : "0 4px 16px rgba(0,0,0,0.06)";
+        e.currentTarget.style.borderColor = isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
+      }}
+    >
+      {/* Image */}
+      <div style={{ position: "relative", height: 200, overflow: "hidden", background: "#111" }}
+        onMouseEnter={() => setImgHov(true)}
+        onMouseLeave={() => setImgHov(false)}
+      >
+        <img src={project.image} alt={project.title} style={{
+          width: "100%", height: "100%", objectFit: "cover",
+          transform: imgHov ? "scale(1.06)" : "scale(1)",
+          transition: "transform 0.55s ease",
+          filter: imgHov ? "brightness(0.7)" : "brightness(1)",
+        }} />
+
+        {/* Gradient overlay */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: `linear-gradient(to top, ${project.accent}cc 0%, transparent 50%)`,
+          opacity: imgHov ? 1 : 0,
+          transition: "opacity 0.35s ease",
+        }} />
+
+        {/* Store icons */}
+        <div style={{
+          position: "absolute", top: "0.75rem", right: "0.75rem",
+          display: "flex", gap: "0.4rem",
         }}>
-          My Projects
+          {project.playStore && (
+            <a href={project.playStore} target="_blank" rel="noopener noreferrer"
+              style={{
+                width: 32, height: 32, borderRadius: "8px",
+                background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "transform 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.12)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+            >
+              <img src={play} alt="Play" style={{ width: 14, height: 14 }} />
+            </a>
+          )}
+          {project.appStore && (
+            <a href={project.appStore} target="_blank" rel="noopener noreferrer"
+              style={{
+                width: 32, height: 32, borderRadius: "8px",
+                background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "transform 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.12)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+            >
+              <img src={apple} alt="App Store" style={{ width: 14, height: 14 }} />
+            </a>
+          )}
+        </div>
+
+        {/* Rating badge */}
+        <div style={{
+          position: "absolute", bottom: "0.75rem", left: "0.75rem",
+          display: "flex", alignItems: "center", gap: "0.3rem",
+          background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)",
+          padding: "0.25rem 0.6rem", borderRadius: "2rem",
+          fontSize: "0.72rem", fontWeight: 700, color: "#fff",
+        }}>
+          <Star size={11} fill="#fbbf24" stroke="none" /> {project.stats.rating}
+          {project.stats.downloads && (
+            <span style={{ marginLeft: "0.4rem", opacity: 0.7 }}>· {project.stats.downloads}</span>
+          )}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+        {/* Title */}
+        <div>
+          <h3 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: "1.15rem", fontWeight: 800,
+            color: theme.text, marginBottom: "0.25rem",
+            letterSpacing: "-0.02em",
+          }}>{project.title}</h3>
+          <p style={{ fontSize: "0.78rem", fontWeight: 600, color: project.accent }}>{project.tagline}</p>
+        </div>
+
+        <p style={{ fontSize: "0.87rem", color: theme.textLight, lineHeight: 1.7, flex: 1 }}>
+          {project.description}
+        </p>
+
+        {/* Features */}
+        <ul style={{ margin: 0, padding: 0 }}>
+          {project.features.map((f, i) => (
+            <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.35rem", fontSize: "0.82rem", color: theme.textLight, lineHeight: 1.5 }}>
+              <span style={{ color: project.accent, marginTop: 2, flexShrink: 0 }}>▸</span>{f}
+            </li>
+          ))}
+        </ul>
+
+        {/* Tech badges */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+          {project.tech.map((t) => <TechBadge key={t} label={t} isDarkMode={isDarkMode} />)}
+        </div>
+
+        {/* Store buttons */}
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "0.25rem" }}>
+          {project.playStore && (
+            <StoreBadge href={project.playStore} icon={play} label="Play Store" accent={project.accent} />
+          )}
+          {project.appStore && (
+            <StoreBadge href={project.appStore} icon={apple} label="App Store" accent={project.accent} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function Projects({ theme, isDarkMode }) {
+  return (
+    <section style={{ maxWidth: 1100, margin: "0 auto", padding: "5rem 1.5rem" }}>
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+        <span style={{
+          display: "inline-block",
+          background: isDarkMode ? "rgba(96,86,255,0.14)" : "rgba(96,86,255,0.08)",
+          color: theme.accent,
+          padding: "0.3rem 1rem", borderRadius: "2rem",
+          fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.12em",
+          textTransform: "uppercase", marginBottom: "1rem",
+          border: `1px solid ${theme.accent}28`,
+        }}>Featured Work</span>
+        <h2 style={{
+          fontFamily: "'Syne', sans-serif",
+          fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800,
+          color: theme.text, letterSpacing: "-0.03em",
+          margin: "0.5rem 0 1rem",
+        }}>
+          Projects &amp;{" "}
+          <span style={{
+            background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+          }}>Apps</span>
         </h2>
-        <p style={{ 
-          color: theme.textLight, 
-          fontSize: "1.1rem",
-          maxWidth: "600px",
-          margin: "0 auto"
-        }}>
-          Here are some of the mobile applications I've developed with a focus on user experience and performance.
+        <p style={{ color: theme.textLight, fontSize: "1rem", maxWidth: 500, margin: "0 auto", lineHeight: 1.7 }}>
+          Production-grade mobile applications deployed on Play Store &amp; App Store.
         </p>
       </div>
 
-      {/* Projects grid */}
+      {/* Grid */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        gap: "2rem",
-        marginTop: "2rem"
+        gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+        gap: "1.5rem",
       }}>
-        {filteredProjects.map(project => (
-          <div key={project.id} style={{
-            background: theme.card,
-            borderRadius: "16px",
-            overflow: "hidden",
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-            border: `1px solid ${isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)"}`,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column"
-          }}>
-            {/* Project image */}
-            <div style={{ 
-              height: "200px", 
-              overflow: "hidden",
-              position: "relative"
-            }}>
-              <img 
-                src={project.image} 
-                alt={project.title}
-                style={{ 
-                  width: "100%", 
-                  height: "100%", 
-                  objectFit: "cover",
-                  transition: "transform 0.5s ease"
-                }}
-                onMouseEnter={(e) => e.target.style.transform = "scale(1.05)"}
-                onMouseLeave={(e) => e.target.style.transform = "scale(1)"}
-              />
-              <div style={{
-                position: "absolute",
-                top: "1rem",
-                right: "1rem",
-                display: "flex",
-                gap: "0.5rem"
-              }}>
-                {project.playStoreLink && (
-                  <a 
-                    href={project.playStoreLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      background: "rgba(0, 0, 0, 0.7)",
-                      color: "#fff",
-                      padding: "0.5rem",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.3s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = "#000";
-                      e.target.style.transform = "scale(1.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(0, 0, 0, 0.7)";
-                      e.target.style.transform = "scale(1)";
-                    }}
-                  >
-                    <img src={play} alt="Play Store" style={{ width: "16px", height: "16px" }} />
-                  </a>
-                )}
-                {project.appStoreLink && (
-                  <a 
-                    href={project.appStoreLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      background: "rgba(0, 0, 0, 0.7)",
-                      color: "#fff",
-                      padding: "0.5rem",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.3s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = "#000";
-                      e.target.style.transform = "scale(1.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(0, 0, 0, 0.7)";
-                      e.target.style.transform = "scale(1)";
-                    }}
-                  >
-                    <img src={apple} alt="App Store" style={{ width: "16px", height: "16px" }} />
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <div style={{ padding: "1.5rem", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-              <h3 style={{ 
-                fontSize: "1.5rem", 
-                fontWeight: "600", 
-                marginBottom: "0.5rem",
-                color: theme.text
-              }}>
-                {project.title}
-              </h3>
-              
-              <p style={{ 
-                color: theme.textLight, 
-                marginBottom: "1rem",
-                lineHeight: "1.6"
-              }}>
-                {project.description}
-              </p>
-              <div style={{ marginBottom: "1.5rem", flexGrow: 1 }}>
-                <h4 style={{ 
-                  fontSize: "1rem", 
-                  fontWeight: "600", 
-                  marginBottom: "0.5rem",
-                  color: theme.text
-                }}>
-                  Key Features:
-                </h4>
-                <ul style={{ 
-                  paddingLeft: "1.2rem",
-                  color: theme.textLight
-                }}>
-                  {project.features.map((feature, index) => (
-                    <li key={index} style={{ marginBottom: "0.4rem", fontSize: "0.9rem" }}>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h4 style={{ 
-                  fontSize: "1rem", 
-                  fontWeight: "600", 
-                  marginBottom: "0.5rem",
-                  color: theme.text
-                }}>
-                  Technologies:
-                </h4>
-                <div style={{ 
-                  display: "flex", 
-                  flexWrap: "wrap", 
-                  gap: "0.5rem" 
-                }}>
-                  {project.technologies.map((tech, index) => (
-                    <span key={index} style={{
-                      padding: "0.3rem 0.8rem",
-                      borderRadius: "50px",
-                      fontSize: "0.8rem",
-                      background: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
-                      color: theme.text
-                    }}>
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              <div style={{ 
-                display: "flex", 
-                gap: "1rem",
-                marginTop: "auto"
-              }}>
-                {(project.playStoreLink || project.appStoreLink) && (
-                  <a 
-                    href={project.playStoreLink || project.appStoreLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      padding: "0.6rem 1.2rem",
-                      borderRadius: "8px",
-                      background: `linear-gradient(135deg, ${theme.accent}, ${theme.highlight})`,
-                      color: "#fff",
-                      textDecoration: "none",
-                      fontWeight: "500",
-                      transition: "all 0.3s ease",
-                      fontSize: "0.9rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.transform = "translateY(-2px)";
-                      e.target.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.transform = "translateY(0)";
-                      e.target.style.boxShadow = "none";
-                    }}
-                  >
-                    <ExternalLink size={16} />
-                    View App
-                  </a>
-                )}
-                
-                {project.githubLink && (
-                  <a 
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      padding: "0.6rem 1.2rem",
-                      borderRadius: "8px",
-                      background: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
-                      color: theme.text,
-                      textDecoration: "none",
-                      fontWeight: "500",
-                      transition: "all 0.3s ease",
-                      fontSize: "0.9rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = isDarkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
-                    }}
-                  >
-                    <Github size={16} />
-                    Code
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
+        {PROJECTS.map((p) => (
+          <ProjectCard key={p.id} project={p} isDarkMode={isDarkMode} theme={theme} />
         ))}
       </div>
     </section>
   );
-};
-
-const Download = ({ size }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-);
-
-export default Projects;
+}

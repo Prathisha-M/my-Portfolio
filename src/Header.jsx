@@ -1,408 +1,241 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun, Home, User, Briefcase, Mail, Github, Linkedin, Twitter, Instagram, Code2 } from "lucide-react";
+import { Menu, X, Moon, Sun, Code2, Github, Linkedin, Mail } from "lucide-react";
 
-const Header = ({ isDarkMode, setDarkMode, theme, isScrolled }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+/* ── Nav items ── */
+const NAV = [
+  { label: "About",    href: "#about" },
+  { label: "Skills",   href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact",  href: "#contact" },
+];
 
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newMode = !prev;
-      if (newMode) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-      return newMode;
-    });
+const SOCIALS = [
+  { label: "GitHub",   href: "https://github.com/Prathisha-M",           Icon: Github,   color: "#8b82ff" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/prathisha-m",  Icon: Linkedin, color: "#0a66c2" },
+  { label: "Email",    href: "mailto:prathishamurugesan@gmail.com",       Icon: Mail,     color: "#ff7070" },
+];
+
+export default function Header({ isDarkMode, setDarkMode, theme, isScrolled }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive]     = useState("");
+
+  /* track active section */
+  useEffect(() => {
+    const ids = ["about", "skills", "projects", "contact"];
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    ids.forEach((id) => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+
+  const close = () => setMenuOpen(false);
+
+  /* glass style */
+  const glassNav = {
+    background: isScrolled
+      ? isDarkMode ? "rgba(7,9,15,0.82)" : "rgba(248,247,244,0.86)"
+      : "transparent",
+    backdropFilter: isScrolled ? "blur(20px) saturate(1.6)" : "none",
+    WebkitBackdropFilter: isScrolled ? "blur(20px) saturate(1.6)" : "none",
+    borderBottom: isScrolled
+      ? `1px solid ${isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)"}`
+      : "none",
+    transition: "all 0.45s cubic-bezier(.4,0,.2,1)",
   };
 
-  // Modern color scheme
-  const modernColors = {
-    light: {
-      background: "rgba(255, 255, 255, 0.95)",
-      primary: "#1a1a2e",
-      secondary: "#16213e",
-      accent: "#0f3460",
-      highlight: "#e94560",
-      text: "#1a1a2e",
-      textMuted: "#64748b",
-      border: "rgba(148, 163, 184, 0.2)",
-      glass: "rgba(255, 255, 255, 0.1)"
-    },
-    dark: {
-      background: "rgba(15, 23, 42, 0.95)",
-      primary: "#f8fafc",
-      secondary: "#e2e8f0",
-      accent: "#3b82f6",
-      highlight: "#10b981",
-      text: "#f8fafc",
-      textMuted: "#94a3b8",
-      border: "rgba(148, 163, 184, 0.1)",
-      glass: "rgba(0, 0, 0, 0.2)"
-    }
+  const linkStyle = (href) => {
+    const isActive = active && href === `#${active}`;
+    return {
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: "0.9rem",
+      fontWeight: 500,
+      letterSpacing: "0.01em",
+      color: isActive ? theme.accent : theme.textLight,
+      padding: "0.4rem 0",
+      position: "relative",
+      transition: "color 0.2s",
+      cursor: "pointer",
+      background: "none",
+      border: "none",
+    };
   };
-
-  const currentTheme = isDarkMode ? modernColors.dark : modernColors.light;
-
-  const navItems = [
-    { name: "Home", href: "#", icon: <Home size={18} /> },
-    { name: "About", href: "#about", icon: <User size={18} /> },
-    { name: "Projects", href: "#projects", icon: <Briefcase size={18} /> },
-    { name: "Contact", href: "#contact", icon: <Mail size={18} /> }
-  ];
-
-  const socialLinks = [
-    { name: "GitHub", href: "https://github.com/Prathisha-M", icon: <Github size={20} />, color: "#333" },
-    { name: "LinkedIn", href: "https://www.linkedin.com/in/prathisha-m", icon: <Linkedin size={20} />, color: "#0077b5" },
-    { name: "Gmail", href: "mailto:prathishamurugesan@gmail.com", icon: <Mail size={20} />, color: "#ea4335" }
-  ];
 
   return (
     <>
-      <nav 
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: isScrolled ? currentTheme.background : "rgba(0, 0, 0, 0)",
-          backdropFilter: isScrolled ? "blur(20px)" : "none",
-          borderBottom: isScrolled ? `1px solid ${currentTheme.border}` : "none",
-          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          padding: "0 1rem"
-        }}
-      >
-        <div 
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: isScrolled ? "70px" : "80px",
-            transition: "height 0.3s ease"
-          }}
-        >
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, ...glassNav }}>
+        <div style={{
+          maxWidth: 1180, margin: "0 auto",
+          padding: "0 1.5rem",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          height: isScrolled ? "64px" : "72px",
+          transition: "height 0.35s ease",
+        }}>
           {/* Logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div
-              style={{
-                width: "45px",
-                height: "45px",
-                background: `linear-gradient(135deg, ${currentTheme.accent}, ${currentTheme.highlight})`,
-                borderRadius: "12px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontWeight: "700",
-                fontSize: "1.2rem",
-                boxShadow: `0 8px 25px ${currentTheme.accent}40`
-              }}
-            >
-              <Code2 size={24} />
+          <a href="#" style={{ display: "flex", alignItems: "center", gap: "0.65rem", textDecoration: "none" }}>
+            <div style={{
+              width: 38, height: 38, borderRadius: "10px",
+              background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: `0 4px 18px ${theme.shadow}`,
+            }}>
+              <Code2 size={20} color="#fff" />
             </div>
             <div>
-              <h1 
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "700",
-                  color: currentTheme.primary,
-                  margin: 0,
-                  background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.accent})`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text"
-                }}
-              >
-                Prathisha
-              </h1>
-              <p 
-                style={{
-                  fontSize: "0.8rem",
-                  color: currentTheme.textMuted,
-                  margin: 0,
-                  fontWeight: "500"
-                }}
-              >
+              <span style={{
+                fontFamily: "'Syne', sans-serif",
+                fontWeight: 700, fontSize: "1.1rem",
+                color: theme.text,
+                display: "block", lineHeight: 1,
+              }}>Prathisha</span>
+              <span style={{ fontSize: "0.7rem", color: theme.textLight, fontWeight: 500 }}>
                 Software Developer
-              </p>
+              </span>
             </div>
-          </div>
+          </a>
 
-          {/* Desktop Navigation */}
-          <div 
-            style={{ 
-              display: "none",
-              alignItems: "center",
-              gap: "2rem"
-            }} 
-            className="md:flex"
-          >
-            {navItems.map((item, index) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={closeMenu}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  color: currentTheme.textMuted,
-                  textDecoration: "none",
-                  fontWeight: "500",
-                  fontSize: "0.95rem",
-                  padding: "0.75rem 1rem",
-                  borderRadius: "12px",
-                  transition: "all 0.3s ease",
-                  position: "relative",
-                  overflow: "hidden"
-                }}
-                className="nav-item"
-                onMouseEnter={(e) => {
-                  e.target.style.color = currentTheme.primary;
-                  e.target.style.background = currentTheme.glass;
-                  e.target.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.color = currentTheme.textMuted;
-                  e.target.style.background = "transparent";
-                  e.target.style.transform = "translateY(0)";
-                }}
+          {/* Desktop nav */}
+          <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            {NAV.map(({ label, href }) => (
+              <a key={label} href={href} style={linkStyle(href)}
+                onMouseEnter={(e) => { e.currentTarget.style.color = theme.accent; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = active && href === `#${active}` ? theme.accent : theme.textLight; }}
               >
-                {item.icon}
-                <span>{item.name}</span>
+                <span style={{ display: "block", padding: "0.4rem 0.9rem" }}>{label}</span>
+                {/* Active underline */}
+                <span style={{
+                  position: "absolute", bottom: -2, left: "0.9rem", right: "0.9rem",
+                  height: "2px", borderRadius: "2px",
+                  background: theme.accent,
+                  transform: active && href === `#${active}` ? "scaleX(1)" : "scaleX(0)",
+                  transition: "transform 0.3s ease",
+                  transformOrigin: "left",
+                }} />
               </a>
             ))}
           </div>
 
-          {/* Right Section */}
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {/* Social Links - Desktop */}
-            <div 
-              style={{ 
-                display: "none",
-                alignItems: "center",
-                gap: "0.5rem"
-              }} 
-              className="md:flex"
-            >
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  title={social.name}
+          {/* Right side */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            {/* Social icons – desktop */}
+            <div className="hide-mobile" style={{ display: "flex", gap: "0.2rem", marginRight: "0.5rem" }}>
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  title={label}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "10px",
-                    color: currentTheme.textMuted,
-                    transition: "all 0.3s ease",
-                    position: "relative"
+                    width: 34, height: 34, borderRadius: "8px",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: theme.textLight, transition: "all 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.color = social.color;
-                    e.target.style.background = currentTheme.glass;
-                    e.target.style.transform = "translateY(-2px) scale(1.05)";
+                    e.currentTarget.style.background = isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)";
+                    e.currentTarget.style.color = theme.accent;
+                    e.currentTarget.style.transform = "translateY(-2px)";
                   }}
                   onMouseLeave={(e) => {
-                    e.target.style.color = currentTheme.textMuted;
-                    e.target.style.background = "transparent";
-                    e.target.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = theme.textLight;
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  {social.icon}
+                  <Icon size={17} />
                 </a>
               ))}
             </div>
 
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleDarkMode}
+            {/* Theme toggle */}
+            <button onClick={() => setDarkMode((p) => !p)}
               style={{
-                width: "45px",
-                height: "45px",
-                borderRadius: "12px",
-                border: "none",
-                background: `linear-gradient(135deg, ${currentTheme.accent}, ${currentTheme.highlight})`,
-                color: "white",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.3s ease",
-                boxShadow: `0 4px 15px ${currentTheme.accent}40`
+                width: 36, height: 36, borderRadius: "9px",
+                background: isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)",
+                color: theme.text,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.25s", border: `1px solid ${theme.border}`,
               }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-2px) rotate(180deg)";
-                e.target.style.boxShadow = `0 8px 25px ${currentTheme.accent}60`;
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0) rotate(0deg)";
-                e.target.style.boxShadow = `0 4px 15px ${currentTheme.accent}40`;
-              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = theme.accent; e.currentTarget.style.color = theme.accent; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = theme.border; e.currentTarget.style.color = theme.text; }}
             >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={toggleMenu}
+            {/* Hamburger */}
+            <button className="hide-desktop" onClick={() => setMenuOpen((p) => !p)}
               style={{
-                width: "45px",
-                height: "45px",
-                borderRadius: "12px",
-                border: `2px solid ${currentTheme.border}`,
-                background: currentTheme.glass,
-                color: currentTheme.primary,
-                cursor: "pointer",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.3s ease",
-                backdropFilter: "blur(10px)"
+                width: 36, height: 36, borderRadius: "9px",
+                background: "transparent", color: theme.text,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.2s", border: `1px solid ${theme.border}`,
               }}
-              className="md:hidden flex"
             >
-              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `linear-gradient(135deg, ${currentTheme.background}f0, ${currentTheme.glass}f0)`,
-            backdropFilter: "blur(20px)",
-            zIndex: 999,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "2rem",
-            padding: "2rem",
-            opacity: isMenuOpen ? 1 : 0,
-            visibility: isMenuOpen ? "visible" : "hidden",
-            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
-          }}
-          className="md:hidden"
-        >
-          {navItems.map((item, index) => (
-            <a
-              key={item.name}
-              href={item.href}
-              onClick={closeMenu}
+      {/* ── Mobile overlay ── */}
+      {menuOpen && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 999,
+          background: isDarkMode ? "rgba(7,9,15,0.97)" : "rgba(248,247,244,0.97)",
+          backdropFilter: "blur(20px)",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: "0.5rem",
+          animation: "fade-in 0.25s ease",
+        }}>
+          {/* Close */}
+          <button onClick={close} style={{
+            position: "absolute", top: "1.25rem", right: "1.5rem",
+            background: "none", color: theme.textLight,
+            width: 40, height: 40, borderRadius: "10px",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            border: `1px solid ${theme.border}`,
+          }}>
+            <X size={20} />
+          </button>
+
+          {NAV.map(({ label, href }, i) => (
+            <a key={label} href={href} onClick={close}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                color: currentTheme.primary,
-                textDecoration: "none",
-                fontSize: "1.5rem",
-                fontWeight: "600",
-                padding: "1rem 2rem",
-                borderRadius: "16px",
-                background: currentTheme.glass,
-                border: `1px solid ${currentTheme.border}`,
-                minWidth: "200px",
-                justifyContent: "flex-start",
-                transition: "all 0.3s ease",
-                transform: `translateY(${isMenuOpen ? 0 : 50}px)`,
-                opacity: isMenuOpen ? 1 : 0,
-                transitionDelay: `${index * 100}ms`
+                fontFamily: "'Syne', sans-serif",
+                fontSize: "2rem", fontWeight: 700,
+                color: active === href.slice(1) ? theme.accent : theme.text,
+                padding: "0.6rem 2rem",
+                animation: `float-up 0.35s ease ${i * 0.06}s both`,
+                transition: "color 0.2s",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = theme.accent; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = active === href.slice(1) ? theme.accent : theme.text; }}
             >
-              {item.icon}
-              {item.name}
+              {label}
             </a>
           ))}
 
-          {/* Mobile Social Links */}
-          <div 
-            style={{
-              display: "flex",
-              gap: "1rem",
-              marginTop: "2rem",
-              transform: `translateY(${isMenuOpen ? 0 : 50}px)`,
-              opacity: isMenuOpen ? 1 : 0,
-              transition: "all 0.3s ease 400ms"
-            }}
-          >
-            {socialLinks.map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
+          <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", animation: "float-up 0.4s ease 0.28s both" }}>
+            {SOCIALS.map(({ label, href, Icon, color }) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "55px",
-                  height: "55px",
-                  borderRadius: "16px",
-                  background: `linear-gradient(135deg, ${social.color}20, ${social.color}10)`,
-                  color: social.color,
-                  border: `2px solid ${social.color}30`,
-                  transition: "all 0.3s ease"
+                  width: 48, height: 48, borderRadius: "12px",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  background: isDarkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+                  border: `1px solid ${theme.border}`,
+                  color: theme.textLight,
+                  transition: "all 0.2s",
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = color; e.currentTarget.style.borderColor = color + "55"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = theme.textLight; e.currentTarget.style.borderColor = theme.border; }}
               >
-                {social.icon}
+                <Icon size={20} />
               </a>
             ))}
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .nav-item::before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, ${currentTheme.accent}, ${currentTheme.highlight});
-          transition: all 0.3s ease;
-          transform: translateX(-50%);
-        }
-        
-        .nav-item:hover::before {
-          width: 80%;
-        }
-
-        @media (max-width: 768px) {
-          .md\\:flex {
-            display: none !important;
-          }
-          .md\\:hidden {
-            display: flex !important;
-          }
-        }
-
-        @media (min-width: 769px) {
-          .md\\:flex {
-            display: flex !important;
-          }
-          .md\\:hidden {
-            display: none !important;
-          }
-        }
-      `}</style>
     </>
   );
-};
-
-export default Header;
+}

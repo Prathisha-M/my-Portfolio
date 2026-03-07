@@ -1,310 +1,173 @@
 import * as React from "react";
 import { useState } from "react";
+import { Github, Linkedin, Mail, Copy, Check, ArrowRight } from "lucide-react";
 
-const Contact = ({ theme, isDarkMode }) => {
-  const [isCopied, setIsCopied] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-  
-  const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("prathishamurugesan@gmail.com");
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
-  };
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Form submission logic would go here
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! I'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+const EMAIL = "prathishamurugesan@gmail.com";
+
+const CHANNELS = [
+  {
+    Icon: Mail,
+    label: "Email",
+    value: EMAIL,
+    sub: "Fastest response",
+    href: `mailto:${EMAIL}`,
+    color: "#ff7070",
+    bg: "rgba(255,112,112,0.10)",
+  },
+  {
+    Icon: Linkedin,
+    label: "LinkedIn",
+    value: "prathisha-m",
+    sub: "Let's connect professionally",
+    href: "https://www.linkedin.com/in/prathisha-m",
+    color: "#0a66c2",
+    bg: "rgba(10,102,194,0.10)",
+  },
+  {
+    Icon: Github,
+    label: "GitHub",
+    value: "Prathisha-M",
+    sub: "Check out my code",
+    href: "https://github.com/Prathisha-M",
+    color: isDark => isDark ? "#c9d1d9" : "#24292e",
+    bg: isDark => isDark ? "rgba(201,209,217,0.08)" : "rgba(36,41,46,0.07)",
+  },
+];
+
+export default function Contact({ theme, isDarkMode }) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = () => {
+    navigator.clipboard.writeText(EMAIL);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2200);
   };
 
   return (
-    <section id="contact" style={{ 
-      textAlign: "center",
-      padding: "6rem 1.5rem",
-      maxWidth: "1000px",
-      margin: "0 auto"
+    <section style={{
+      background: isDarkMode
+        ? "linear-gradient(160deg, #07090f 0%, #0e1220 60%, #07090f 100%)"
+        : "linear-gradient(160deg, #f8f7f4 0%, #eff6ff 100%)",
+      padding: "6rem 1.5rem 5rem",
+      position: "relative",
+      overflow: "hidden",
+      fontFamily: "'DM Sans', sans-serif",
     }}>
-      <div style={{ marginBottom: "3rem" }}>
-        <h2 style={{ 
-          fontSize: "2.8rem", 
-          fontWeight: 700, 
-          color: theme.primary,
-          marginBottom: "1rem",
-          background: `linear-gradient(135deg, ${theme.primary} 0%, ${theme.accent} 100%)`,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text"
-        }}>Get in Touch</h2>
-        
-        <div style={{
-          height: "4px",
-          width: "80px",
-          background: `linear-gradient(90deg, ${theme.accent}, ${theme.highlight})`,
-          margin: "0 auto 1.5rem",
-          borderRadius: "2px"
-        }}></div>
-        
-        <p style={{ 
-          color: theme.textLight,
-          fontSize: "1.1rem",
-          maxWidth: "700px",
-          margin: "0 auto 3rem",
-          lineHeight: 1.6
-        }}>
-          I'm always open to collaborating on new projects and ideas. Feel free to reach out to discuss potential opportunities!
-        </p>
-      </div>
-      
+      {/* Glow blobs */}
       <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "2.5rem"
-      }}>
-        {/* Contact Form */}
-        {/* <form onSubmit={handleSubmit} style={{
-          width: "100%",
-          maxWidth: "600px",
-          padding: "2.5rem",
-          borderRadius: "1rem",
-          background: theme.card,
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-          textAlign: "left"
-        }}>
-          <h3 style={{
-            fontSize: "1.5rem",
-            fontWeight: 600,
-            marginBottom: "1.5rem",
-            color: theme.primary
-          }}>Send me a message</h3>
-          
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label htmlFor="name" style={{
-              display: "block",
-              marginBottom: "0.5rem",
-              fontWeight: 500,
-              color: theme.textLight
-            }}>Your Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                borderRadius: "0.5rem",
-                border: `1px solid ${theme.textLight}30`,
-                background: isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)",
-                color: theme.text,
-                fontSize: "1rem"
-              }}
-            />
-          </div>
-          
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label htmlFor="email" style={{
-              display: "block",
-              marginBottom: "0.5rem",
-              fontWeight: 500,
-              color: theme.textLight
-            }}>Your Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                borderRadius: "0.5rem",
-                border: `1px solid ${theme.textLight}30`,
-                background: isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)",
-                color: theme.text,
-                fontSize: "1rem"
-              }}
-            />
-          </div>
-          
-          <div style={{ marginBottom: "2rem" }}>
-            <label htmlFor="message" style={{
-              display: "block",
-              marginBottom: "0.5rem",
-              fontWeight: 500,
-              color: theme.textLight
-            }}>Your Message</label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleInputChange}
-              required
-              rows="5"
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                borderRadius: "0.5rem",
-                border: `1px solid ${theme.textLight}30`,
-                background: isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)",
-                color: theme.text,
-                fontSize: "1rem",
-                resize: "vertical"
-              }}
-            ></textarea>
-          </div>
-          
-          <button type="submit" style={{
-            backgroundColor: theme.secondary,
-            color: isDarkMode ? "#2D336B" : "#FFF2F2",
-            padding: "0.75rem 2rem",
-            borderRadius: "0.5rem",
-            border: "none",
-            fontWeight: 600,
-            fontSize: "1rem",
-            cursor: "pointer",
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-            transition: "all 0.2s ease",
-            width: "100%"
-          }} onMouseOver={(e) => {
-            e.target.style.transform = "translateY(-2px)";
-            e.target.style.boxShadow = "0 6px 12px -1px rgba(0, 0, 0, 0.15)";
-          }} onMouseOut={(e) => {
-            e.target.style.transform = "translateY(0)";
-            e.target.style.boxShadow = "0 4px 6px -1px rgba(0, 0, 0, 0.1)";
-          }}>
-            Send Message
-          </button>
-        </form> */}
-        
-        {/* <div style={{ fontSize: "1.1rem", color: theme.textLight, margin: "1rem 0" }}>
-          OR
-        </div> */}
-        
-        {/* Direct Contact Options */}
-        <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1.5rem",
-          justifyContent: "center"
-        }}>
-          <a href="mailto:prathishamurugesan@gmail.com" style={{ 
-            backgroundColor: theme.secondary,
-            color: isDarkMode ? "#2D336B" : "#FFF2F2",
-            padding: "0.75rem 1.5rem",
-            borderRadius: "0.5rem",
-            textDecoration: "none",
-            fontWeight: 600,
-            fontSize: "1rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-            transition: "all 0.2s ease"
-          }} onMouseOver={(e) => {
-            e.target.style.transform = "translateY(-2px)";
-            e.target.style.boxShadow = "0 6px 12px -1px rgba(0, 0, 0, 0.15)";
-          }} onMouseOut={(e) => {
-            e.target.style.transform = "translateY(0)";
-            e.target.style.boxShadow = "0 4px 6px -1px rgba(0, 0, 0, 0.1)";
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            Send Email
-          </a>
-          
-          <button onClick={copyEmailToClipboard} style={{ 
-            backgroundColor: "transparent",
-            color: theme.textLight,
-            padding: "0.75rem 1.5rem",
-            borderRadius: "0.5rem",
-            border: `1px solid ${theme.textLight}30`,
-            fontWeight: 600,
-            fontSize: "1rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-          }} onMouseOver={(e) => {
-            e.target.style.backgroundColor = isDarkMode ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.03)";
-          }} onMouseOut={(e) => {
-            e.target.style.backgroundColor = "transparent";
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-            </svg>
-            {isCopied ? "Copied!" : "Copy Email"}
-          </button>
-        </div>
-      </div>
-      
-      {/* Social Links */}
-      <div style={{ marginTop: "4rem" }}>
-        <p style={{ color: theme.textLight, marginBottom: "1.5rem" }}>
-          You can also find me on these platforms:
-        </p>
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "1.5rem"
-        }}>
-          <a href="https://github.com/Prathisha-M" target="_blank" rel="noopener noreferrer" style={{
-            color: theme.textLight,
-            transition: "all 0.2s ease"
-          }} onMouseOver={(e) => {
-            e.target.style.color = theme.highlight;
-            e.target.style.transform = "translateY(-2px)";
-          }} onMouseOut={(e) => {
-            e.target.style.color = theme.textLight;
-            e.target.style.transform = "translateY(0)";
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-            </svg>
-          </a>
-          
-          <a href="https://www.linkedin.com/in/prathisha-m" target="_blank" rel="noopener noreferrer" style={{
-            color: theme.textLight,
-            transition: "all 0.2s ease"
-          }} onMouseOver={(e) => {
-            e.target.style.color = theme.highlight;
-            e.target.style.transform = "translateY(-2px)";
-          }} onMouseOut={(e) => {
-            e.target.style.color = theme.textLight;
-            e.target.style.transform = "translateY(0)";
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-          </a>
+        position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)",
+        width: 500, height: 240,
+        background: `radial-gradient(ellipse, ${theme.accent}18 0%, transparent 70%)`,
+        pointerEvents: "none", zIndex: 0,
+      }} />
 
+      <div style={{ maxWidth: 700, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+          <span style={{
+            display: "inline-block",
+            background: isDarkMode ? `${theme.accent}18` : `${theme.accent}10`,
+            color: theme.accent,
+            padding: "0.3rem 1rem", borderRadius: "2rem",
+            fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.12em",
+            textTransform: "uppercase", marginBottom: "1.25rem",
+            border: `1px solid ${theme.accent}28`,
+          }}>Let's Talk</span>
+
+          <h2 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontSize: "clamp(2.2rem, 6vw, 3.8rem)",
+            fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05,
+            color: theme.text, marginBottom: "1.25rem",
+          }}>
+            Get In{" "}
+            <span style={{
+              background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+            }}>Touch</span>
+          </h2>
+
+          <p style={{ color: theme.textLight, fontSize: "1rem", lineHeight: 1.8, maxWidth: 480, margin: "0 auto" }}>
+            Open to collaborations, new opportunities, or just a friendly chat about tech and mobile development.
+          </p>
+        </div>
+
+        {/* Contact cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginBottom: "2rem" }}>
+          {CHANNELS.map(({ Icon, label, value, sub, href, color: rawColor, bg: rawBg }) => {
+            const color = typeof rawColor === "function" ? rawColor(isDarkMode) : rawColor;
+            const bg    = typeof rawBg    === "function" ? rawBg(isDarkMode)    : rawBg;
+            const isEmail = label === "Email";
+
+            return (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: "flex", alignItems: "center", gap: "1rem",
+                  padding: "1.25rem 1.5rem",
+                  background: isDarkMode ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.85)",
+                  border: `1px solid ${isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"}`,
+                  borderRadius: "14px",
+                  backdropFilter: "blur(12px)",
+                  textDecoration: "none",
+                  transition: "all 0.25s ease",
+                  boxShadow: isDarkMode ? "0 2px 12px rgba(0,0,0,0.2)" : "0 2px 10px rgba(0,0,0,0.05)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = color + "50";
+                  e.currentTarget.style.transform = "translateX(4px)";
+                  e.currentTarget.style.boxShadow = `0 8px 28px ${color}20`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.boxShadow = isDarkMode ? "0 2px 12px rgba(0,0,0,0.2)" : "0 2px 10px rgba(0,0,0,0.05)";
+                }}
+              >
+                <div style={{
+                  width: 46, height: 46, borderRadius: "12px", flexShrink: 0,
+                  background: bg,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color,
+                }}>
+                  <Icon size={20} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontFamily: "'Syne',sans-serif", fontSize:"0.78rem", fontWeight:700, color: theme.textLight, textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"0.2rem" }}>
+                    {label}
+                  </p>
+                  <p style={{ fontSize: "0.92rem", fontWeight: 600, color: theme.text }}>{value}</p>
+                  <p style={{ fontSize: "0.75rem", color: theme.textLight }}>{sub}</p>
+                </div>
+                <ArrowRight size={18} style={{ color: theme.textLight, flexShrink: 0 }} />
+              </a>
+            );
+          })}
+        </div>
+
+        {/* Copy email CTA */}
+        <div style={{ textAlign: "center" }}>
+          <button onClick={copy} style={{
+            display: "inline-flex", alignItems: "center", gap: "0.6rem",
+            padding: "0.85rem 2rem",
+            borderRadius: "12px",
+            background: copied
+              ? `linear-gradient(135deg, ${theme.accent2}, #059669)`
+              : `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+            color: "#fff", fontWeight: 700, fontSize: "0.92rem",
+            border: "none", cursor: "pointer",
+            boxShadow: `0 8px 24px ${theme.shadow}`,
+            transition: "all 0.3s ease",
+          }}
+            onMouseEnter={(e) => { if (!copied) { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 14px 32px ${theme.shadow}`; } }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 8px 24px ${theme.shadow}`; }}
+          >
+            {copied ? <><Check size={16} /> Copied!</> : <><Copy size={16} /> Copy Email Address</>}
+          </button>
+          <p style={{ color: theme.textLight, fontSize: "0.78rem", marginTop: "0.75rem" }}>
+            {EMAIL}
+          </p>
         </div>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

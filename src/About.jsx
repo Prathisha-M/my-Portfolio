@@ -1,876 +1,462 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  User, 
-  Briefcase, 
-  GraduationCap, 
-  Trophy, 
-  ExternalLink,
-  Code,
-  Smartphone,
-  Server,
-  Database,
-  MapPin,
-  Calendar,
-  Award,
-  ChevronRight,
-  Github,
-  Download
-} from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  User, Briefcase, GraduationCap, Trophy,
+  ExternalLink, Code, Smartphone, Server, Database,
+  MapPin, Calendar, Award, ChevronRight, Github,
+} from "lucide-react";
 
-const MobileDark = 'https://cdn-icons-gif.flaticon.com/17122/17122397.gif';
-const MobileLight = 'https://cdn-icons-gif.flaticon.com/17122/17122361.gif';
+/* ── Tiny helpers ── */
+const Tag = ({ children, theme }) => (
+  <span style={{
+    display: "inline-block",
+    padding: "0.28rem 0.75rem",
+    borderRadius: "2rem",
+    fontSize: "0.76rem",
+    fontWeight: 600,
+    letterSpacing: "0.01em",
+    background: `${theme.accent}18`,
+    color: theme.accent,
+    border: `1px solid ${theme.accent}30`,
+  }}>{children}</span>
+);
 
-const About = ({ theme, isDarkMode }) => {
-  const [activeSection, setActiveSection] = useState('intro');
-  const [isVisible, setIsVisible] = useState(false);
+const SectionHeading = ({ children, theme }) => (
+  <div style={{ marginBottom: "2.5rem" }}>
+    <h2 style={{
+      fontFamily: "'Syne', sans-serif",
+      fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
+      fontWeight: 800,
+      color: theme.text,
+      letterSpacing: "-0.03em",
+      lineHeight: 1.1,
+    }}>{children}</h2>
+    <div style={{ width: 48, height: 3, borderRadius: 4, background: `linear-gradient(90deg,${theme.accent},${theme.accent2})`, marginTop: 12 }} />
+  </div>
+);
 
+/* ── Experience card ── */
+const ExpCard = ({ exp, theme, isDarkMode }) => (
+  <div style={{
+    background: theme.card,
+    border: `1px solid ${theme.border}`,
+    borderRadius: "16px",
+    padding: "1.75rem",
+    marginBottom: "1.25rem",
+    backdropFilter: "blur(12px)",
+    transition: "transform 0.25s ease, box-shadow 0.25s ease",
+  }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = "translateY(-3px)";
+      e.currentTarget.style.boxShadow = `0 20px 48px ${theme.shadow}`;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = "translateY(0)";
+      e.currentTarget.style.boxShadow = "none";
+    }}
+  >
+    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.85rem" }}>
+      <div>
+        <p style={{ fontSize: "0.78rem", fontWeight: 600, color: theme.accent, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>
+          {exp.role}
+        </p>
+        <a href={exp.website} target="_blank" rel="noopener noreferrer"
+          style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1.15rem", color: theme.text, display: "flex", alignItems: "center", gap: "0.4rem" }}
+        >
+          {exp.company} <ExternalLink size={14} style={{ color: theme.textLight }} />
+        </a>
+      </div>
+    </div>
+    <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
+      {[{ Icon: Calendar, text: exp.duration }, { Icon: MapPin, text: exp.location }].map(({ Icon, text }) => (
+        <span key={text} style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.82rem", color: theme.textLight }}>
+          <Icon size={13} /> {text}
+        </span>
+      ))}
+    </div>
+    <ul style={{ marginBottom: "1.25rem" }}>
+      {exp.achievements.map((a, i) => (
+        <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.5rem", color: theme.textLight, fontSize: "0.88rem", lineHeight: 1.6 }}>
+          <ChevronRight size={14} style={{ color: theme.accent, marginTop: 3, flexShrink: 0 }} />
+          {a}
+        </li>
+      ))}
+    </ul>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+      {exp.skills.map((s) => <Tag key={s} theme={theme}>{s}</Tag>)}
+    </div>
+  </div>
+);
+
+/* ── Education card ── */
+const EduCard = ({ edu, theme }) => (
+  <div style={{
+    display: "flex", gap: "1rem", alignItems: "flex-start",
+    padding: "1.4rem", marginBottom: "0.9rem",
+    background: theme.card, border: `1px solid ${theme.border}`,
+    borderRadius: "14px", backdropFilter: "blur(10px)",
+    transition: "background 0.2s",
+  }}
+    onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${theme.accent}40`; }}
+    onMouseLeave={(e) => { e.currentTarget.style.borderColor = theme.border; }}
+  >
+    <div style={{
+      width: 40, height: 40, flexShrink: 0, borderRadius: "10px",
+      background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <GraduationCap size={18} color="#fff" />
+    </div>
+    <div style={{ flex: 1 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.25rem" }}>
+        <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "0.95rem", color: theme.text }}>
+          {edu.degree}{edu.field && <span style={{ fontWeight: 400, color: theme.textLight }}> · {edu.field}</span>}
+        </span>
+        {edu.grade && (
+          <span style={{ background: theme.accent, color: "#fff", padding: "0.15rem 0.55rem", borderRadius: "6px", fontSize: "0.75rem", fontWeight: 700 }}>
+            {edu.grade}
+          </span>
+        )}
+      </div>
+      <p style={{ fontSize: "0.85rem", color: theme.textLight, marginBottom: "0.4rem" }}>{edu.institution}</p>
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.78rem", color: theme.textLight }}>
+          <Calendar size={12} /> {edu.duration}
+        </span>
+        <span style={{
+          fontSize: "0.7rem", fontWeight: 600,
+          padding: "0.1rem 0.5rem", borderRadius: "4px",
+          background: edu.status === "Current" ? `${theme.accent2}25` : `${theme.textLight}18`,
+          color: edu.status === "Current" ? theme.accent2 : theme.textLight,
+        }}>
+          {edu.status}
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── Achievement card ── */
+const AchCard = ({ ach, theme }) => {
+  const Ico = ach.icon;
+  return (
+    <div style={{
+      padding: "1.5rem", borderRadius: "14px",
+      background: `linear-gradient(135deg, ${ach.color}12, ${ach.color}06)`,
+      border: `1px solid ${ach.color}30`,
+      textAlign: "center", transition: "transform 0.25s, box-shadow 0.25s",
+    }}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px) scale(1.02)"; e.currentTarget.style.boxShadow = `0 16px 36px ${ach.color}28`; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
+    >
+      <div style={{
+        width: 46, height: 46, borderRadius: "12px",
+        background: ach.color, margin: "0 auto 1rem",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        boxShadow: `0 8px 20px ${ach.color}40`,
+      }}>
+        <Ico size={22} color="#fff" />
+      </div>
+      <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "0.98rem", color: theme.text, marginBottom: "0.35rem" }}>{ach.title}</p>
+      <p style={{ fontSize: "0.8rem", color: theme.textLight, marginBottom: "0.5rem" }}>{ach.organization}</p>
+      <span style={{ fontSize: "0.76rem", fontWeight: 700, color: ach.color }}>{ach.year}</span>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════════════
+   MAIN COMPONENT
+══════════════════════════════════════════ */
+export default function About({ theme, isDarkMode }) {
+  const [tab, setTab] = useState("intro");
+  const [typed, setTyped] = useState("");
+  const titleRef = useRef(null);
+  const ROLES = ["Software Developer", "React Native Engineer", "Mobile App Builder", "Full-Stack Dev"];
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  /* typewriter */
   useEffect(() => {
-    setIsVisible(true);
-  }, []);
+    const current = ROLES[roleIdx];
+    const speed = deleting ? 40 : charIdx === current.length ? 1600 : 70;
+    const t = setTimeout(() => {
+      if (!deleting && charIdx < current.length) {
+        setTyped(current.slice(0, charIdx + 1));
+        setCharIdx((p) => p + 1);
+      } else if (!deleting && charIdx === current.length) {
+        setDeleting(true);
+      } else if (deleting && charIdx > 0) {
+        setTyped(current.slice(0, charIdx - 1));
+        setCharIdx((p) => p - 1);
+      } else {
+        setDeleting(false);
+        setRoleIdx((p) => (p + 1) % ROLES.length);
+      }
+    }, speed);
+    return () => clearTimeout(t);
+  }, [charIdx, deleting, roleIdx]);
 
   const experiences = [
     {
       id: 1,
       company: "SmartZEN Solutions Private Limited",
       role: "Software Developer",
-      duration: "06/2024 - Present",
+      duration: "06/2024 – Present",
       location: "Chennai, India",
       website: "https://smartzensolutions.com/",
       achievements: [
-  "Implemented push notifications for Android using react-native-push-notification",
-  "Integrated Google Maps APIs with full map functionality including markers, routes, and geolocation",
-  "Configured and implemented Google Login authentication flow for secure user access",
-  "Developed a real-time chat feature with authentication",
-  "Worked on user authentication and secure API development",
-  "Designed and optimized SQL database queries for efficient data retrieval"
-],
-      skills: [
-  "React Native",
-  "Node.js",
-  "Firebase (Authentication, Firestore, Cloud Messaging)",
-  "SQL",
-  "Authentication & API Security",
-  "Google Maps API Integration"
-]
+        "Implemented push notifications for Android using react-native-push-notification",
+        "Integrated Google Maps APIs with full map functionality including markers, routes, and geolocation",
+        "Configured and implemented Google Login authentication flow for secure user access",
+        "Developed a real-time chat feature with authentication",
+        "Worked on user authentication and secure API development",
+        "Designed and optimized SQL database queries for efficient data retrieval",
+      ],
+      skills: ["React Native", "Node.js", "Firebase", "SQL", "Auth & API Security", "Google Maps API"],
     },
     {
       id: 2,
       company: "AK Infopark Private Limited",
       role: "React Full-Stack Developer Intern",
-      duration: "03/2024 - 04/2024",
+      duration: "03/2024 – 04/2024",
       location: "Nagercoil, India",
       website: "https://www.akinfopark.com/",
       achievements: [
         "Developed a simple e-commerce website for product listing",
         "Implemented add-to-cart functionality using React and Redux",
-        "Built a REST API for managing products and orders"
+        "Built a REST API for managing products and orders",
       ],
-      skills: ["React", "Redux", "REST API", "E-commerce", "Full-Stack"]
-    }
+      skills: ["React", "Redux", "REST API", "E-commerce", "Full-Stack"],
+    },
   ];
 
   const education = [
-    {
-      degree: "Master of Technology",
-      field: "Information Technology",
-      institution: "CSI Institute of Technology",
-      duration: "08/2024 - Present",
-      status: "Current",
-      grade: null
-    },
-    {
-      degree: "Bachelor of Engineering",
-      field: "Computer Science",
-      institution: "Loyola Institute of Technology and Science",
-      duration: "08/2020 - 08/2024",
-      status: "Completed",
-      grade: "86%"
-    },
-    {
-      degree: "12th (Higher Secondary)",
-      field: "Computer Science",
-      institution: "Vivekananda Kendra Matric Hr. Sec School",
-      duration: "08/2019 - 08/2020",
-      status: "Completed",
-      grade: "70%"
-    },
-    {
-      degree: "10th SSLC",
-      field: null,
-      institution: "Annai Matric Hr. Sec School",
-      duration: "08/2017 - 08/2018",
-      status: "Completed",
-      grade: "88%"
-    }
+    { degree: "Master of Technology", field: "Information Technology", institution: "CSI Institute of Technology", duration: "08/2024 – Present", status: "Current", grade: null },
+    { degree: "Bachelor of Engineering", field: "Computer Science", institution: "Loyola Institute of Technology and Science", duration: "08/2020 – 08/2024", status: "Completed", grade: "86%" },
+    { degree: "12th (Higher Secondary)", field: "Computer Science", institution: "Vivekananda Kendra Matric Hr. Sec School", duration: "08/2019 – 08/2020", status: "Completed", grade: "70%" },
+    { degree: "10th SSLC", field: null, institution: "Annai Matric Hr. Sec School", duration: "08/2017 – 08/2018", status: "Completed", grade: "88%" },
   ];
 
   const achievements = [
-    {
-      title: "Progressive Visionary",
-      organization: "Loyola Institute of Technology and Science",
-      year: "2023-2024",
-      icon: Trophy,
-      color: "#10b981"
-    },
-    {
-      title: "First Rank",
-      organization: "Loyola Institute of Technology and Science",
-      year: "2020-2024",
-      icon: Award,
-      color: "#f59e0b"
-    },
-    {
-      title: "Best Academic Performer",
-      organization: "Loyola Institute of Technology and Science",
-      year: "2022-2023",
-      icon: GraduationCap,
-      color: "#3b82f6"
-    },
-    {
-      title: "Elite & Silver Badge",
-      organization: "Programming in Java (NPTEL)",
-      year: "2021-2022",
-      icon: Code,
-      color: "#8b5cf6"
-    }
+    { title: "First Rank", organization: "CSI Institute of Technology", year: "2024–2026", icon: Award, color: "#f59e0b" },
+    { title: "Progressive Visionary", organization: "Loyola Institute of Technology and Science", year: "2023–2024", icon: Trophy, color: "#10b981" },
+    { title: "First Rank", organization: "Loyola Institute of Technology and Science", year: "2020–2024", icon: Award, color: "#6056ff" },
+    { title: "Best Academic Performer", organization: "Loyola Institute of Technology and Science", year: "2022–2023", icon: GraduationCap, color: "#3b82f6" },
+    { title: "Elite & Silver Badge", organization: "Programming in Java (NPTEL)", year: "2021–2022", icon: Code, color: "#8b5cf6" },
   ];
 
-  const skills = [
-    { name: "React Native", icon: Smartphone, level: 90 },
-    { name: "Node.js", icon: Server, level: 85 },
-    { name: "Database Management", icon: Database, level: 80 },
-    { name: "Full-Stack Development", icon: Code, level: 88 }
+  const coreSkills = [
+    { name: "React Native", Icon: Smartphone, pct: 92 },
+    { name: "Node.js",      Icon: Server,     pct: 85 },
+    { name: "Full-Stack",   Icon: Code,       pct: 88 },
+    { name: "Databases",    Icon: Database,   pct: 82 },
   ];
 
-  const NavigationTab = ({ id, label, icon: Icon, isActive, onClick }) => (
-    <button
-      onClick={() => onClick(id)}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        padding: '0.75rem 1.5rem',
-        borderRadius: '2rem',
-        border: 'none',
-        background: isActive ? theme.highlight : 'transparent',
-        color: isActive ? '#ffffff' : theme.textLight,
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        fontSize: '0.9rem',
-        fontWeight: isActive ? '600' : '500',
-      }}
-      onMouseEnter={(e) => {
-        if (!isActive) {
-          e.target.style.background = isDarkMode ? '#334155' : '#f1f5f9';
-          e.target.style.color = theme.text;
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!isActive) {
-          e.target.style.background = 'transparent';
-          e.target.style.color = theme.textLight;
-        }
-      }}
-    >
-      <Icon size={18} />
-      {label}
-    </button>
-  );
-
-  const ExperienceCard = ({ experience }) => (
-    <div
-      style={{
-        background: isDarkMode ? 'rgba(51, 65, 85, 0.3)' : 'rgba(255, 255, 255, 0.7)',
-        backdropFilter: 'blur(10px)',
-        borderRadius: '1rem',
-        padding: '2rem',
-        border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-        marginBottom: '1.5rem',
-        transition: 'all 0.3s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = `0 20px 25px -5px ${isDarkMode ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.1)'}`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <div>
-          <h3 style={{
-            fontSize: '1.25rem',
-            fontWeight: 'bold',
-            color: theme.text,
-            marginBottom: '0.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
-            <Briefcase size={20} style={{ color: theme.highlight }} />
-            {experience.role}
-          </h3>
-          <a
-            href={experience.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: theme.highlight,
-              textDecoration: 'none',
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              marginBottom: '0.5rem'
-            }}
-          >
-            {experience.company}
-            <ExternalLink size={16} />
-          </a>
-        </div>
-      </div>
-      
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '1rem',
-        marginBottom: '1.5rem',
-        color: theme.textLight,
-        fontSize: '0.9rem'
-      }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-          <Calendar size={16} />
-          {experience.duration}
-        </span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-          <MapPin size={16} />
-          {experience.location}
-        </span>
-      </div>
-
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h4 style={{ color: theme.text, fontWeight: '600', marginBottom: '0.75rem' }}>Key Achievements:</h4>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {experience.achievements.map((achievement, index) => (
-            <li
-              key={index}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.5rem',
-                marginBottom: '0.5rem',
-                color: theme.textLight,
-                fontSize: '0.95rem',
-                lineHeight: '1.5'
-              }}
-            >
-              <ChevronRight size={16} style={{ color: theme.highlight, marginTop: '0.1rem', flexShrink: 0 }} />
-              {achievement}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-        {experience.skills.map((skill, index) => (
-          <span
-            key={index}
-            style={{
-              background: isDarkMode ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)',
-              color: theme.highlight,
-              padding: '0.25rem 0.75rem',
-              borderRadius: '1rem',
-              fontSize: '0.8rem',
-              fontWeight: '500',
-              border: `1px solid ${isDarkMode ? 'rgba(59, 130, 246, 0.3)' : 'rgba(59, 130, 246, 0.2)'}`
-            }}
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-
-  const EducationCard = ({ edu, index }) => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '1rem',
-        padding: '1.5rem',
-        background: isDarkMode ? 'rgba(51, 65, 85, 0.2)' : 'rgba(255, 255, 255, 0.5)',
-        borderRadius: '0.75rem',
-        border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-        marginBottom: '1rem',
-        transition: 'all 0.3s ease',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = isDarkMode ? 'rgba(51, 65, 85, 0.4)' : 'rgba(255, 255, 255, 0.8)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = isDarkMode ? 'rgba(51, 65, 85, 0.2)' : 'rgba(255, 255, 255, 0.5)';
-      }}
-    >
-      <div
-        style={{
-          width: '3rem',
-          height: '3rem',
-          borderRadius: '50%',
-          background: `linear-gradient(135deg, ${theme.highlight}, ${theme.accent})`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#ffffff',
-          flexShrink: 0
-        }}
-      >
-        <GraduationCap size={20} />
-      </div>
-      
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-          <h3 style={{
-            fontSize: '1.1rem',
-            fontWeight: 'bold',
-            color: theme.text,
-            marginBottom: '0.25rem'
-          }}>
-            {edu.degree}
-            {edu.field && <span style={{ color: theme.textLight, fontWeight: 'normal' }}> ({edu.field})</span>}
-          </h3>
-          {edu.grade && (
-            <span style={{
-              background: theme.highlight,
-              color: '#ffffff',
-              padding: '0.25rem 0.5rem',
-              borderRadius: '0.5rem',
-              fontSize: '0.8rem',
-              fontWeight: 'bold'
-            }}>
-              {edu.grade}
-            </span>
-          )}
-        </div>
-        
-        <p style={{
-          color: theme.textLight,
-          marginBottom: '0.5rem',
-          fontSize: '0.95rem'
-        }}>
-          {edu.institution}
-        </p>
-        
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem',
-          color: theme.textLight,
-          fontSize: '0.85rem'
-        }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-            <Calendar size={14} />
-            {edu.duration}
-          </span>
-          <span style={{
-            padding: '0.125rem 0.5rem',
-            borderRadius: '0.25rem',
-            background: edu.status === 'Current' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(148, 163, 184, 0.2)',
-            color: edu.status === 'Current' ? '#10b981' : theme.textLight,
-            fontSize: '0.75rem',
-            fontWeight: '500'
-          }}>
-            {edu.status}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-
-  const AchievementCard = ({ achievement }) => {
-    const IconComponent = achievement.icon;
-    return (
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${achievement.color}20, ${achievement.color}10)`,
-          borderRadius: '0.75rem',
-          padding: '1.5rem',
-          border: `1px solid ${achievement.color}40`,
-          transition: 'all 0.3s ease',
-          textAlign: 'center'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-          e.currentTarget.style.boxShadow = `0 20px 25px -5px ${achievement.color}30`;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0) scale(1)';
-          e.currentTarget.style.boxShadow = 'none';
-        }}
-      >
-        <div
-          style={{
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            background: achievement.color,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 1rem',
-            color: '#ffffff'
-          }}
-        >
-          <IconComponent size={24} />
-        </div>
-        
-        <h3 style={{
-          fontSize: '1.1rem',
-          fontWeight: 'bold',
-          color: theme.text,
-          marginBottom: '0.5rem'
-        }}>
-          {achievement.title}
-        </h3>
-        
-        <p style={{
-          color: theme.textLight,
-          fontSize: '0.9rem',
-          marginBottom: '0.5rem'
-        }}>
-          {achievement.organization}
-        </p>
-        
-        <span style={{
-          color: achievement.color,
-          fontSize: '0.85rem',
-          fontWeight: '600'
-        }}>
-          {achievement.year}
-        </span>
-      </div>
-    );
-  };
-
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'intro':
-        return (
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: window.innerWidth > 768 ? '1fr 300px' : '1fr',
-            gap: '3rem',
-            alignItems: 'center'
-          }}>
-            <div>
-              <h2 style={{  
-                fontSize: "3.5rem", 
-                fontWeight: 700, 
-                background: `linear-gradient(135deg, ${theme.highlight}, ${theme.accent})`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                marginBottom: "1rem",
-                lineHeight: '1.1'
-              }}>
-                Hi, I'm Prathisha
-              </h2>
-              
-              <div style={{ 
-                color: theme.textLight,
-                fontSize: "1.2rem",
-                lineHeight: 1.7,
-                marginBottom: '2rem'
-              }}>
-                <p style={{ marginBottom: "1.5rem", fontSize: '1.3rem', color: theme.text }}>
-                  A <strong style={{ color: theme.highlight }}>Software Developer</strong> with hands-on experience in React Native development.
-                </p>
-                
-                <p style={{ marginBottom: "1.5rem" }}>
-                  Skilled in building <strong style={{ color: theme.highlight }}>cross-platform</strong> and{' '}
-                  <strong style={{ color: theme.highlight }}>quick learner</strong> with a strong{' '}
-                  <strong style={{ color: theme.highlight }}>problem-solving mindset</strong>. 
-                  My expertise lies in <strong style={{ color: theme.highlight }}>React Native</strong>,{' '}
-                  <strong style={{ color: theme.highlight }}>Node.js</strong>, and{' '}
-                  <strong style={{ color: theme.highlight }}>DBMS</strong>, 
-                  enabling me to build seamless <strong style={{ color: theme.highlight }}>hybrid mobile applications</strong> with efficient backend integrations.
-                </p>
-              </div>
-
-              {/* Skills Preview */}
-              <div style={{ marginBottom: '2rem' }}>
-                <h3 style={{ 
-                  color: theme.text, 
-                  fontSize: '1.2rem', 
-                  fontWeight: '600', 
-                  marginBottom: '1rem' 
-                }}>
-                  Core Skills
-                </h3>
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                  gap: '1rem' 
-                }}>
-                  {skills.map((skill) => {
-                    const IconComponent = skill.icon;
-                    return (
-                      <div
-                        key={skill.name}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.75rem',
-                          padding: '0.75rem',
-                          background: isDarkMode ? 'rgba(51, 65, 85, 0.3)' : 'rgba(255, 255, 255, 0.6)',
-                          borderRadius: '0.5rem',
-                          border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`
-                        }}
-                      >
-                        <IconComponent size={20} style={{ color: theme.highlight }} />
-                        <div style={{ flex: 1 }}>
-                          <div style={{ 
-                            color: theme.text, 
-                            fontSize: '0.9rem', 
-                            fontWeight: '500',
-                            marginBottom: '0.25rem'
-                          }}>
-                            {skill.name}
-                          </div>
-                          <div style={{
-                            background: isDarkMode ? '#334155' : '#e2e8f0',
-                            height: '4px',
-                            borderRadius: '2px',
-                            overflow: 'hidden'
-                          }}>
-                            <div
-                              style={{
-                                background: theme.highlight,
-                                height: '100%',
-                                width: `${skill.level}%`,
-                                borderRadius: '2px',
-                                transition: 'width 1s ease-in-out'
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <button 
-                  style={{ 
-                    background: `linear-gradient(135deg, ${theme.highlight}, ${theme.accent})`,
-                    color: '#ffffff',
-                    padding: "0.875rem 2rem",
-                    borderRadius: "0.75rem",
-                    border: "none",
-                    fontWeight: 600,
-                    fontSize: "1rem",
-                    cursor: "pointer",
-                    boxShadow: `0 10px 15px -3px ${theme.highlight}40`,
-                    transition: "all 0.3s ease",
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }} 
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = `0 20px 25px -5px ${theme.highlight}60`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = `0 10px 15px -3px ${theme.highlight}40`;
-                  }}
-                  onClick={() => window.open("https://github.com/Prathisha-M", "_blank")}
-                >
-                  <Github size={18} />
-                  View My Work
-                </button>
-{/*                 
-                <button 
-                  style={{ 
-                    background: 'transparent',
-                    color: theme.highlight,
-                    padding: "0.875rem 2rem",
-                    borderRadius: "0.75rem",
-                    border: `2px solid ${theme.highlight}`,
-                    fontWeight: 600,
-                    fontSize: "1rem",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }} 
-                  onMouseEnter={(e) => {
-                    e.target.style.background = theme.highlight;
-                    e.target.style.color = '#ffffff';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = 'transparent';
-                    e.target.style.color = theme.highlight;
-                  }}
-                >
-                  <Download size={18} />
-                  Download Resume
-                </button> */}
-              </div>
-            </div>
-            
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center',
-              position: 'relative'
-            }}>
-              <div
-                style={{
-                  position: 'relative',
-                  padding: '1rem',
-                  borderRadius: '2rem',
-                  background: `linear-gradient(135deg, ${theme.highlight}20, ${theme.accent}20)`,
-                  backdropFilter: 'blur(10px)',
-                  border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-                  overflow: 'hidden',
-                  transition: 'transform 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05) rotate(2deg)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
-                }}
-              >
-                <img
-                  src={isDarkMode ? MobileLight : MobileDark}
-                  alt="Mobile Development"
-                  style={{
-                    width: '100%',
-                    maxWidth: '250px',
-                    height: 'auto',
-                    borderRadius: '1rem',
-                    transition: 'all 0.3s ease',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '-10px',
-                    right: '-10px',
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: theme.highlight,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    fontSize: '1.5rem',
-                    animation: 'pulse 2s infinite'
-                  }}
-                >
-                  📱
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        
-      case 'experience':
-        return (
-          <div>
-            <h2 style={{ 
-              fontSize: "2.5rem", 
-              fontWeight: 700, 
-              color: theme.text, 
-              textAlign: "center", 
-              marginBottom: "3rem",
-              position: 'relative'
-            }}>
-              Professional Experience
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '100px',
-                height: '4px',
-                background: `linear-gradient(90deg, ${theme.highlight}, ${theme.accent})`,
-                borderRadius: '2px'
-              }} />
-            </h2>
-            {experiences.map((exp) => (
-              <ExperienceCard key={exp.id} experience={exp} />
-            ))}
-          </div>
-        );
-        
-      case 'education':
-        return (
-          <div>
-            <h2 style={{ 
-              fontSize: "2.5rem", 
-              fontWeight: 700, 
-              color: theme.text, 
-              textAlign: "center", 
-              marginBottom: "3rem",
-              position: 'relative'
-            }}>
-              Educational Background
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '100px',
-                height: '4px',
-                background: `linear-gradient(90deg, ${theme.highlight}, ${theme.accent})`,
-                borderRadius: '2px'
-              }} />
-            </h2>
-            <div style={{ position: 'relative' }}>
-              {/* Timeline line */}
-              <div style={{
-                position: 'absolute',
-                left: '1.5rem',
-                top: '2rem',
-                bottom: '2rem',
-                width: '2px',
-                background: `linear-gradient(to bottom, ${theme.highlight}, ${theme.accent})`,
-                zIndex: 1
-              }} />
-              
-              {education.map((edu, index) => (
-                <EducationCard key={index} edu={edu} index={index} />
-              ))}
-            </div>
-          </div>
-        );
-        
-      case 'achievements':
-        return (
-          <div>
-            <h2 style={{ 
-              fontSize: "2.5rem", 
-              fontWeight: 700, 
-              color: theme.text, 
-              textAlign: "center", 
-              marginBottom: "3rem",
-              position: 'relative'
-            }}>
-              Achievements & Recognition
-              <div style={{ position: 'absolute',
-                bottom: '-10px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '100px',
-                height: '4px',
-                background: `linear-gradient(90deg, ${theme.highlight}, ${theme.accent})`,
-                borderRadius: '2px'
-              }} />
-            </h2>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '1.5rem'
-            }}>
-              {achievements.map((achievement, index) => (
-                <AchievementCard key={index} achievement={achievement} />
-              ))}
-            </div>
-          </div>
-        );
-        
-      default:
-        return null;
-    }
-  };
+  const TABS = [
+    { id: "intro",        label: "Intro",        Icon: User },
+    { id: "experience",   label: "Experience",   Icon: Briefcase },
+    { id: "education",    label: "Education",    Icon: GraduationCap },
+    { id: "achievements", label: "Achievements", Icon: Trophy },
+  ];
 
   return (
-    <section id="about" style={{ 
-      padding: "8rem 1.5rem 5rem",
-      maxWidth: "1200px",
-      margin: "0 auto",
-      minHeight: "100vh",
-      opacity: isVisible ? 1 : 0,
-      transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-      transition: 'opacity 0.6s ease, transform 0.6s ease'
-    }}>
-      {/* Navigation Tabs */}
+    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "7rem 1.5rem 5rem" }}>
+
+      {/* ── TABS ── */}
       <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '0.5rem',
-        marginBottom: '4rem',
-        flexWrap: 'wrap',
-        background: isDarkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(248, 250, 252, 0.7)',
-        backdropFilter: 'blur(10px)',
-        padding: '0.75rem',
-        borderRadius: '2rem',
-        border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-        position: 'sticky',
-        top: '6rem',
-        zIndex: 100
+        display: "flex", flexWrap: "wrap", gap: "0.35rem",
+        background: isDarkMode ? "rgba(255,255,255,0.035)" : "rgba(0,0,0,0.04)",
+        border: `1px solid ${theme.border}`,
+        padding: "0.4rem",
+        borderRadius: "999px",
+        marginBottom: "3.5rem",
+        width: "fit-content",
+        backdropFilter: "blur(14px)",
       }}>
-        <NavigationTab
-          id="intro"
-          label="Introduction"
-          icon={User}
-          isActive={activeSection === 'intro'}
-          onClick={setActiveSection}
-        />
-        <NavigationTab
-          id="experience"
-          label="Experience"
-          icon={Briefcase}
-          isActive={activeSection === 'experience'}
-          onClick={setActiveSection}
-        />
-        <NavigationTab
-          id="education"
-          label="Education"
-          icon={GraduationCap}
-          isActive={activeSection === 'education'}
-          onClick={setActiveSection}
-        />
-        <NavigationTab
-          id="achievements"
-          label="Achievements"
-          icon={Trophy}
-          isActive={activeSection === 'achievements'}
-          onClick={setActiveSection}
-        />
+        {TABS.map(({ id, label, Icon }) => {
+          const active = tab === id;
+          return (
+            <button key={id} onClick={() => setTab(id)}
+              style={{
+                display: "flex", alignItems: "center", gap: "0.45rem",
+                padding: "0.55rem 1.2rem",
+                borderRadius: "999px",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.85rem", fontWeight: active ? 700 : 500,
+                color: active ? "#fff" : theme.textLight,
+                background: active ? `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})` : "transparent",
+                border: "none", cursor: "pointer",
+                transition: "all 0.25s ease",
+                boxShadow: active ? `0 4px 18px ${theme.shadow}` : "none",
+              }}
+              onMouseEnter={(e) => { if (!active) { e.currentTarget.style.color = theme.text; e.currentTarget.style.background = isDarkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)"; } }}
+              onMouseLeave={(e) => { if (!active) { e.currentTarget.style.color = theme.textLight; e.currentTarget.style.background = "transparent"; } }}
+            >
+              <Icon size={15} /> {label}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Main Content */}
-      <div style={{
-        background: isDarkMode ? 'rgba(15, 23, 42, 0.3)' : 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'blur(20px)',
-        borderRadius: '2rem',
-        padding: '3rem',
-        border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
-        boxShadow: `0 25px 50px -12px ${isDarkMode ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.1)'}`,
-        transition: 'all 0.3s ease'
-      }}>
-        {renderContent()}
-      </div>
+      {/* ── INTRO ── */}
+      {tab === "intro" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "3rem", alignItems: "start" }}>
+          <div style={{ animation: "float-up 0.5s ease both" }}>
+            {/* Badge */}
+            <span style={{
+              display: "inline-flex", alignItems: "center", gap: "0.4rem",
+              background: `${theme.accent}14`, color: theme.accent,
+              padding: "0.3rem 0.85rem", borderRadius: "2rem",
+              fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", border: `1px solid ${theme.accent}28`,
+              marginBottom: "1.25rem",
+            }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: theme.accent2, display: "inline-block", animation: "pulse-glow 2s infinite" }} />
+              Available for work
+            </span>
 
-      <style jsx>{`
-        @keyframes pulse {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.1); opacity: 0.8; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-      `}</style>
-    </section>
+            <h1 ref={titleRef} style={{
+              fontFamily: "'Syne', sans-serif",
+              fontSize: "clamp(2.6rem, 6vw, 4.2rem)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              lineHeight: 1.05,
+              color: theme.text,
+              marginBottom: "1rem",
+            }}>
+              Hi, I'm<br />
+              <span style={{
+                background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              }}>Prathisha M</span>
+            </h1>
+
+            {/* Typewriter */}
+            <p style={{ fontSize: "1.1rem", color: theme.textLight, marginBottom: "1.5rem", minHeight: "1.8rem", fontWeight: 500 }}>
+              <span style={{ color: theme.accent2, fontWeight: 700 }}>{typed}</span>
+              <span style={{ animation: "blink 1s infinite", color: theme.accent }}>|</span>
+            </p>
+
+            <p style={{ fontSize: "1rem", color: theme.textLight, lineHeight: 1.8, maxWidth: 560, marginBottom: "2rem" }}>
+              Passionate about crafting seamless <strong style={{ color: theme.text }}>cross-platform mobile apps</strong> with React Native. Strong foundation in{" "}
+              <strong style={{ color: theme.text }}>Node.js</strong>, real-time data, and backend integrations —
+              with a focus on performance and polished UX.
+            </p>
+
+            {/* Skill bars */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
+              {coreSkills.map(({ name, Icon, pct }) => (
+                <div key={name} style={{
+                  padding: "0.85rem 1rem",
+                  background: theme.card, border: `1px solid ${theme.border}`,
+                  borderRadius: "12px", backdropFilter: "blur(10px)",
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.6rem" }}>
+                    <Icon size={15} style={{ color: theme.accent }} />
+                    <span style={{ fontSize: "0.82rem", fontWeight: 600, color: theme.text }}>{name}</span>
+                    <span style={{ marginLeft: "auto", fontSize: "0.75rem", fontWeight: 700, color: theme.accent }}>{pct}%</span>
+                  </div>
+                  <div style={{ height: 4, borderRadius: 4, background: theme.border, overflow: "hidden" }}>
+                    <div style={{
+                      height: "100%", width: `${pct}%`, borderRadius: 4,
+                      background: `linear-gradient(90deg, ${theme.accent}, ${theme.accent2})`,
+                      animation: "bar-grow 1.2s cubic-bezier(.4,0,.2,1) both",
+                    }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              <a href="https://github.com/Prathisha-M" target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  padding: "0.75rem 1.6rem",
+                  borderRadius: "12px",
+                  background: `linear-gradient(135deg, ${theme.accent}, ${theme.accent2})`,
+                  color: "#fff", fontWeight: 700, fontSize: "0.9rem",
+                  boxShadow: `0 8px 24px ${theme.shadow}`,
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 14px 32px ${theme.shadow}`; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = `0 8px 24px ${theme.shadow}`; }}
+              >
+                <Github size={16} /> View GitHub
+              </a>
+              <button onClick={() => setTab("experience")}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  padding: "0.75rem 1.6rem",
+                  borderRadius: "12px",
+                  background: "transparent",
+                  color: theme.accent, fontWeight: 700, fontSize: "0.9rem",
+                  border: `1.5px solid ${theme.accent}`,
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = `${theme.accent}14`; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+              >
+                See Experience <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Floating card visual */}
+          <div className="hide-mobile" style={{ animation: "scale-in 0.6s ease 0.1s both" }}>
+            <div style={{
+              padding: "1.75rem", borderRadius: "20px",
+              background: theme.card, border: `1px solid ${theme.border}`,
+              backdropFilter: "blur(16px)",
+              width: 220,
+            }}>
+              <div style={{ fontSize: "3rem", textAlign: "center", marginBottom: "0.75rem" }}>📱</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+                {["React Native", "Node.js", "Firebase", "SQL", "Google Maps"].map((s) => (
+                  <div key={s} style={{
+                    display: "flex", alignItems: "center", gap: "0.5rem",
+                    fontSize: "0.8rem", color: theme.textLight, fontWeight: 500,
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: theme.accent2, flexShrink: 0 }} />
+                    {s}
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: "1.2rem", padding: "0.7rem", borderRadius: "10px", background: `${theme.accent}12` }}>
+                <p style={{ fontSize: "0.72rem", color: theme.accent, fontWeight: 700, textAlign: "center" }}>
+                  6+ Apps Deployed 🚀
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── EXPERIENCE ── */}
+      {tab === "experience" && (
+        <div style={{ animation: "float-up 0.45s ease both" }}>
+          <SectionHeading theme={theme}>Professional Experience</SectionHeading>
+          {experiences.map((e) => <ExpCard key={e.id} exp={e} theme={theme} isDarkMode={isDarkMode} />)}
+        </div>
+      )}
+
+      {/* ── EDUCATION ── */}
+      {tab === "education" && (
+        <div style={{ animation: "float-up 0.45s ease both" }}>
+          <SectionHeading theme={theme}>Educational Background</SectionHeading>
+          {education.map((edu, i) => <EduCard key={i} edu={edu} theme={theme} />)}
+        </div>
+      )}
+
+      {/* ── ACHIEVEMENTS ── */}
+      {tab === "achievements" && (
+        <div style={{ animation: "float-up 0.45s ease both" }}>
+          <SectionHeading theme={theme}>Achievements & Recognition</SectionHeading>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "1.25rem" }}>
+            {achievements.map((a, i) => <AchCard key={i} ach={a} theme={theme} />)}
+          </div>
+        </div>
+      )}
+    </div>
   );
-};
-
-export default About;
+}
