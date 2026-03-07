@@ -27,7 +27,6 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.smartironbusiness",
     appStore: "https://apps.apple.com/in/app/smart-iron-business/id6755295734",
     image: SmartIronBusiness,
-    stats: { downloads: "1K+", rating: 4.5 },
     accent: "#f97316",
   },
   {
@@ -47,7 +46,6 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.smartironxpress",
     appStore: "https://apps.apple.com/in/app/smart-iron-xpress/id6754585989",
     image: SmartIronXpress,
-    stats: { downloads: "1K+", rating: 4.5 },
     accent: "#6056ff",
   },
   {
@@ -67,7 +65,6 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
     appStore: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
     image: SmartLaundryBanner,
-    stats: { downloads: "1K+", rating: 4.5 },
     accent: "#10b981",
   },
   {
@@ -87,7 +84,6 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.smartlaundrybusiness&hl=en_IN",
     appStore: "https://apps.apple.com/in/app/smart-laundry-business/id6749540717",
     image: SmartLaundryBusinessBanner,
-    stats: { downloads: "5K+", rating: 4.7 },
     accent: "#8b5cf6",
   },
   {
@@ -107,7 +103,6 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.tpv_app&hl=en_IN",
     appStore: "https://apps.apple.com/in/app/tpv-app/id6752292667",
     image: TPVBanner,
-    stats: { downloads: "2K+", rating: 4.3 },
     accent: "#ec4899",
   },
   {
@@ -125,12 +120,9 @@ const PROJECTS = [
     ],
     tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
     image: CollegeBusBanner,
-    stats: { users: "500+", rating: 4.8 },
     accent: "#f59e0b",
   },
 ];
-
-/* ── Tech badge ── */
 const TechBadge = ({ label, isDarkMode }) => (
   <span style={{
     display: "inline-block",
@@ -143,8 +135,6 @@ const TechBadge = ({ label, isDarkMode }) => (
     border: `1px solid ${isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
   }}>{label}</span>
 );
-
-/* ── Store badge ── */
 const StoreBadge = ({ href, icon, label, accent }) => (
   <a href={href} target="_blank" rel="noopener noreferrer"
     style={{
@@ -165,8 +155,6 @@ const StoreBadge = ({ href, icon, label, accent }) => (
     {label}
   </a>
 );
-
-/* ── Project card ── */
 const ProjectCard = ({ project, isDarkMode, theme }) => {
   const [imgHov, setImgHov] = useState(false);
 
@@ -192,7 +180,6 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
         e.currentTarget.style.borderColor = isDarkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)";
       }}
     >
-      {/* Image */}
       <div style={{ position: "relative", height: 200, overflow: "hidden", background: "#111" }}
         onMouseEnter={() => setImgHov(true)}
         onMouseLeave={() => setImgHov(false)}
@@ -203,16 +190,12 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
           transition: "transform 0.55s ease",
           filter: imgHov ? "brightness(0.7)" : "brightness(1)",
         }} />
-
-        {/* Gradient overlay */}
         <div style={{
           position: "absolute", inset: 0,
           background: `linear-gradient(to top, ${project.accent}cc 0%, transparent 50%)`,
           opacity: imgHov ? 1 : 0,
           transition: "opacity 0.35s ease",
         }} />
-
-        {/* Store icons */}
         <div style={{
           position: "absolute", top: "0.75rem", right: "0.75rem",
           display: "flex", gap: "0.4rem",
@@ -246,25 +229,8 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
             </a>
           )}
         </div>
-
-        {/* Rating badge */}
-        <div style={{
-          position: "absolute", bottom: "0.75rem", left: "0.75rem",
-          display: "flex", alignItems: "center", gap: "0.3rem",
-          background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)",
-          padding: "0.25rem 0.6rem", borderRadius: "2rem",
-          fontSize: "0.72rem", fontWeight: 700, color: "#fff",
-        }}>
-          <Star size={11} fill="#fbbf24" stroke="none" /> {project.stats.rating}
-          {project.stats.downloads && (
-            <span style={{ marginLeft: "0.4rem", opacity: 0.7 }}>· {project.stats.downloads}</span>
-          )}
-        </div>
       </div>
-
-      {/* Content */}
       <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column", gap: "0.85rem" }}>
-        {/* Title */}
         <div>
           <h3 style={{
             fontFamily: "'Syne', sans-serif",
@@ -279,7 +245,6 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
           {project.description}
         </p>
 
-        {/* Features */}
         <ul style={{ margin: 0, padding: 0 }}>
           {project.features.map((f, i) => (
             <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.35rem", fontSize: "0.82rem", color: theme.textLight, lineHeight: 1.5 }}>
