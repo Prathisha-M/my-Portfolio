@@ -70,7 +70,7 @@ const PROJECTS = [
   {
     id: 4,
     title: "Smart Laundry Business",
-    tagline: "Analytics & operations dashboard",
+    tagline: "Vendor & delivery management",
     description:
       "Business analytics app with interactive charts, order summaries, delivery management, and dynamic pricing configuration for laundry owners.",
     category: "mobile",
