@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ExternalLink, Github, Star } from "lucide-react";
+import SmartMandap from "./assets/SmartMandap.png";
 import SmartIronBusiness from "./assets/SmartIronBusiness.jpg";
 import SmartIronXpress from "./assets/SmartIronXpress.jpg";
 import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
@@ -11,7 +12,27 @@ import play from "./assets/play.png";
 
 const PROJECTS = [
   {
-    id: 1,
+  id: 1,
+  title: "Smart Mandap",
+  tagline: "Wedding venue booking made simple",
+  description:
+    "Smart Mandap is a complete wedding venue booking app that helps users discover, explore, and book mandaps بسهولة. It supports Admin, Customer, and User roles with seamless booking and management features.",
+  category: "mobile",
+  features: [
+    "Browse mandaps with images and detailed information",
+    "Easy booking and enquiry system",
+    "Role-based login (Admin, Customer, User)",
+    "Booking management and status tracking",
+    "User-friendly and responsive interface",
+  ],
+  tech: ["React Native", "Node.js", "Firebase", "MySQL"],
+  // playStore: "https://play.google.com/store/apps/details?id=your.app.id",
+  // appStore: "",
+  image: SmartMandap,
+  accent: "#b91c1c",
+},
+  {
+    id: 2,
     title: "Smart Iron Business",
     tagline: "Vendor & delivery management",
     description:
@@ -30,7 +51,7 @@ const PROJECTS = [
     accent: "#f97316",
   },
   {
-    id: 2,
+    id: 3,
     title: "Smart Iron Xpress",
     tagline: "Customer-facing ironing app",
     description:
@@ -49,7 +70,7 @@ const PROJECTS = [
     accent: "#6056ff",
   },
   {
-    id: 3,
+    id: 4,
     title: "Smart Laundry",
     tagline: "On-demand laundry service",
     description:
@@ -68,7 +89,7 @@ const PROJECTS = [
     accent: "#10b981",
   },
   {
-    id: 4,
+    id: 5,
     title: "Smart Laundry Business",
     tagline: "Vendor & delivery management",
     description:
@@ -87,7 +108,7 @@ const PROJECTS = [
     accent: "#8b5cf6",
   },
   {
-    id: 5,
+    id: 6,
     title: "TPV",
     tagline: "Business networking platform",
     description:
@@ -106,7 +127,7 @@ const PROJECTS = [
     accent: "#ec4899",
   },
   {
-    id: 6,
+    id: 7,
     title: "College Bus Tracking",
     tagline: "Real-time campus transit",
     description:
