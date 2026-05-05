@@ -88,7 +88,7 @@ const Skills = ({ theme, isDarkMode }) => {
   ];
 
   const stats = [
-    { number: "6+", label: "Apps Deployed", icon: "📱" },
+    { number: "7+", label: "Apps Deployed", icon: "📱" },
     { number: "25+", label: "Technologies", icon: "🛠️" },
     { number: "2+", label: "Years Exp.", icon: "⏱️" },
     { number: "∞", label: "Still Learning", icon: "🚀" },
