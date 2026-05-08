@@ -62,6 +62,7 @@ const PROJECTS = [
       "User-friendly and responsive interface",
     ],
     tech: ["React Native", "Node.js", "Firebase", "MySQL", "Express.js", "Redux", "REST API", "JWT Authentication", "Socket.IO", "Git"],
+    playStore: "https://play.google.com/store/apps/details?id=com.smartmandap&hl=en_IN",
     image: SmartMandap,
     accent: "#b91c1c",
   },
