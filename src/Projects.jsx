@@ -201,6 +201,7 @@ const PROJECTS = [
       "Role-based login for patients and doctors",
     ],
     tech: ["React Native", "Node.js", "Firebase", "MySQL", "Express.js", "Google Maps API", "Redux", "REST API", "JWT Authentication", "Socket.IO", "Git"],
+    github: "https://github.com/Prathisha-M/SmartMed-Plus",
     screenshots: SMP_SCREENSHOTS,
     image: SmartMedPlus,
     accent: "#0ea5e9",
@@ -224,23 +225,23 @@ const PROJECTS = [
     image: TPVBanner,
     accent: "#ec4899",
   },
-  {
-    id: 9,
-    title: "College Bus Tracking",
-    tagline: "Real-time campus transit",
-    description:
-      "Android app for real-time college bus tracking with dual login for drivers and students, proximity alerts, and Google Maps integration.",
-    category: "mobile",
-    features: [
-      "Real-time tracking with Google Maps",
-      "Dual login: drivers & students",
-      "Push proximity alerts",
-      "User-friendly alert system",
-    ],
-    tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
-    image: CollegeBusBanner,
-    accent: "#f59e0b",
-  },
+  // {
+  //   id: 9,
+  //   title: "College Bus Tracking",
+  //   tagline: "Real-time campus transit",
+  //   description:
+  //     "Android app for real-time college bus tracking with dual login for drivers and students, proximity alerts, and Google Maps integration.",
+  //   category: "mobile",
+  //   features: [
+  //     "Real-time tracking with Google Maps",
+  //     "Dual login: drivers & students",
+  //     "Push proximity alerts",
+  //     "User-friendly alert system",
+  //   ],
+  //   tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
+  //   image: CollegeBusBanner,
+  //   accent: "#f59e0b",
+  // },
 ];
 
 // ─── Screenshot Carousel Modal ────────────────────────────────────────────────

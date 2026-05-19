@@ -231,10 +231,10 @@ export default function About({ theme, isDarkMode }) {
   ];
 
   const education = [
-    { degree: "Master of Technology", field: "Information Technology", institution: "CSI Institute of Technology", duration: "08/2024 – Present", status: "Current", grade: null },
-    { degree: "Bachelor of Engineering", field: "Computer Science", institution: "Loyola Institute of Technology and Science", duration: "08/2020 – 08/2024", status: "Completed", grade: "86%" },
-    { degree: "12th (Higher Secondary)", field: "Computer Science", institution: "Vivekananda Kendra Matric Hr. Sec School", duration: "08/2019 – 08/2020", status: "Completed", grade: "70%" },
-    { degree: "10th SSLC", field: null, institution: "Annai Matric Hr. Sec School", duration: "08/2017 – 08/2018", status: "Completed", grade: "88%" },
+    { degree: "Master of Technology", field: "Information Technology", institution: "CSI Institute of Technology", duration: "07/2024 – 06/2026", status: "Completed", grade: "90%" },
+    { degree: "Bachelor of Engineering", field: "Computer Science", institution: "Loyola Institute of Technology and Science", duration: "07/2020 – 06/2024", status: "Completed", grade: "86%" },
+    { degree: "12th (Higher Secondary)", field: "Computer Science", institution: "Vivekananda Kendra Matric Hr. Sec School", duration: "06/2019 – 05/2020", status: "Completed", grade: "70%" },
+    { degree: "10th SSLC", field: null, institution: "Annai Matric Hr. Sec School", duration: "06/2017 – 05/2018", status: "Completed", grade: "88%" },
   ];
 
   const achievements = [
