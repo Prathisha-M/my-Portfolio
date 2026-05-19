@@ -6,6 +6,7 @@ import SmartIronBusiness from "./assets/SmartIronBusiness.png";
 import SmartIronXpress from "./assets/SmartIronXpress.png";
 import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
 import SmartLaundryBusinessBanner from "./assets/SmartLaundryBusinessBanner.jpeg";
+import SmartMedPlus from "./assets/SmartMedPlus.png";
 import TPVBanner from "./assets/TPVBanner.jpg";
 import CollegeBusBanner from "./assets/CollegeBusBanner.jpg";
 import apple from "./assets/apple.png";
@@ -28,6 +29,17 @@ import SFB_F_Login from "./assets/Smart_Fresh_Basket/Farmer_Screens/Login.png";
 import SFB_F_Navigation from "./assets/Smart_Fresh_Basket/Farmer_Screens/Navigation.png";
 import SFB_F_OrderList from "./assets/Smart_Fresh_Basket/Farmer_Screens/Order_List.png";
 
+// Smart Med+ screenshots
+import SMP_AppointmentConfirmed from "./assets/SmartMedPlus/AppointmentConfirmed.png";
+import SMP_BookingDateSelection from "./assets/SmartMedPlus/BookingDateSelection.png";
+import SMP_DoctorDetails from "./assets/SmartMedPlus/DoctorDetails.png";
+import SMP_HomeScreen from "./assets/SmartMedPlus/HomeScreen.png";
+import SMP_MyAccount1 from "./assets/SmartMedPlus/MyAccount1.png";
+import SMP_MyAccount2 from "./assets/SmartMedPlus/MyAccount2.png";
+import SMP_MyAppointments from "./assets/SmartMedPlus/MyAppointments.png";
+import SMP_NearByDoctors from "./assets/SmartMedPlus/NearByDoctors.png";
+import SMP_NoDoctorsFound from "./assets/SmartMedPlus/NoDoctorsFound.png";
+
 const SFB_SCREENSHOTS = [
   { src: SFB_Splash,          label: "Splash Screen",      tab: "Customer" },
   { src: SFB_Onboarding,      label: "Onboarding",         tab: "Customer" },
@@ -44,6 +56,18 @@ const SFB_SCREENSHOTS = [
   { src: SFB_F_AddStock,      label: "Add Stock",          tab: "Farmer"   },
   { src: SFB_F_OrderList,     label: "Order List",         tab: "Farmer"   },
   { src: SFB_F_Currency,      label: "Currency",           tab: "Farmer"   },
+];
+
+const SMP_SCREENSHOTS = [
+  { src: SMP_HomeScreen,            label: "Home Screen",            tab: "Patient" },
+  { src: SMP_NearByDoctors,         label: "Nearby Doctors",         tab: "Patient" },
+  { src: SMP_NoDoctorsFound,        label: "No Doctors Found",       tab: "Patient" },
+  { src: SMP_DoctorDetails,         label: "Doctor Details",         tab: "Patient" },
+  { src: SMP_BookingDateSelection,  label: "Booking Date Selection", tab: "Patient" },
+  { src: SMP_AppointmentConfirmed,  label: "Appointment Confirmed",  tab: "Patient" },
+  { src: SMP_MyAppointments,        label: "My Appointments",        tab: "Patient" },
+  { src: SMP_MyAccount1,            label: "My Account",             tab: "Patient" },
+  { src: SMP_MyAccount2,            label: "My Account (Details)",   tab: "Patient" },
 ];
 
 const PROJECTS = [
@@ -164,6 +188,25 @@ const PROJECTS = [
   },
   {
     id: 7,
+    title: "Smart Med+",
+    tagline: "Doctor booking & healthcare at your fingertips",
+    description:
+      "Smart Med+ is a healthcare appointment app that lets patients discover nearby doctors, view profiles, book appointments by date & time slot, and manage their healthcare journey — all from one place.",
+    category: "mobile",
+    features: [
+      "Discover nearby doctors with location-based search",
+      "View detailed doctor profiles and specializations",
+      "Book appointments with date & time slot selection",
+      "Track and manage upcoming appointments",
+      "Role-based login for patients and doctors",
+    ],
+    tech: ["React Native", "Node.js", "Firebase", "MySQL", "Express.js", "Google Maps API", "Redux", "REST API", "JWT Authentication", "Socket.IO", "Git"],
+    screenshots: SMP_SCREENSHOTS,
+    image: SmartMedPlus,
+    accent: "#0ea5e9",
+  },
+  {
+    id: 8,
     title: "TPV",
     tagline: "Business networking platform",
     description:
@@ -182,7 +225,7 @@ const PROJECTS = [
     accent: "#ec4899",
   },
   {
-    id: 8,
+    id: 9,
     title: "College Bus Tracking",
     tagline: "Real-time campus transit",
     description:
@@ -217,10 +260,8 @@ const ScreenshotModal = ({ project, onClose }) => {
     setCurrentIndex((i) => (i + 1) % filtered.length);
   }, [filtered.length]);
 
-  // Reset index when tab changes
   useEffect(() => { setCurrentIndex(0); }, [activeTab]);
 
-  // Keyboard navigation
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "ArrowLeft") prev();
@@ -231,7 +272,6 @@ const ScreenshotModal = ({ project, onClose }) => {
     return () => window.removeEventListener("keydown", handler);
   }, [prev, next, onClose]);
 
-  // Prevent body scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
@@ -334,7 +374,6 @@ const ScreenshotModal = ({ project, onClose }) => {
           position: "relative",
           minHeight: 0,
         }}>
-          {/* Counter */}
           <p style={{
             margin: "0 0 0.6rem", fontSize: "0.72rem",
             color: "rgba(255,255,255,0.4)", fontWeight: 600,
@@ -343,13 +382,11 @@ const ScreenshotModal = ({ project, onClose }) => {
             {currentIndex + 1} / {filtered.length}
           </p>
 
-          {/* Image + arrows row */}
           <div style={{
             display: "flex", alignItems: "center",
             gap: "0.75rem", width: "100%",
             flex: 1, minHeight: 0,
           }}>
-            {/* Prev */}
             <button
               onClick={prev}
               style={{
@@ -367,7 +404,6 @@ const ScreenshotModal = ({ project, onClose }) => {
               <ChevronLeft size={18} />
             </button>
 
-            {/* Screenshot image */}
             <div style={{
               flex: 1, minHeight: 0,
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -391,7 +427,6 @@ const ScreenshotModal = ({ project, onClose }) => {
               />
             </div>
 
-            {/* Next */}
             <button
               onClick={next}
               style={{
@@ -410,7 +445,6 @@ const ScreenshotModal = ({ project, onClose }) => {
             </button>
           </div>
 
-          {/* Label */}
           <p style={{
             margin: "0.65rem 0 0",
             fontSize: "0.8rem", fontWeight: 600,
@@ -495,7 +529,6 @@ const GithubBadge = ({ href, accent }) => (
   </a>
 );
 
-// ── Screenshots badge now uses Camera icon ─────────────────────────────────────
 const ScreenshotsBadge = ({ onClick, accent }) => (
   <button
     onClick={onClick}
@@ -566,7 +599,6 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
 
           {/* Top-right icon buttons */}
           <div style={{ position: "absolute", top: "0.75rem", right: "0.75rem", display: "flex", gap: "0.4rem" }}>
-            {/* Camera icon → opens carousel */}
             {project.screenshots && (
               <button
                 onClick={() => setShowCarousel(true)}
@@ -583,26 +615,6 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
               >
                 <Camera size={14} />
               </button>
-            )}
-            {/* GitHub icon → opens GitHub link */}
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View on GitHub"
-                style={{
-                  width: 32, height: 32, borderRadius: "8px",
-                  background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "transform 0.2s", color: "#fff",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.12)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-              >
-                <Github size={14} />
-              </a>
             )}
             {project.playStore && (
               <a href={project.playStore} target="_blank" rel="noopener noreferrer"
@@ -665,11 +677,9 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
 
           {/* Bottom action buttons */}
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "0.25rem" }}>
-            {/* Screenshots button (Camera icon) */}
             {project.screenshots && (
               <ScreenshotsBadge onClick={() => setShowCarousel(true)} accent={project.accent} />
             )}
-            {/* GitHub button — always shown when github link exists */}
             {project.github && (
               <GithubBadge href={project.github} accent={project.accent} />
             )}
