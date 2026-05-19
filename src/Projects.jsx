@@ -165,7 +165,7 @@ const PROJECTS = [
     playStore: "https://play.google.com/store/apps/details?id=com.smartlaundry.customer&hl=en_IN",
     appStore: "https://apps.apple.com/in/app/smart-laundry-pickup-delivery/id6749255733",
     image: SmartLaundryBanner,
-    accent: "#10b981",
+    accent: "#8b5cf6",
   },
   {
     id: 6,

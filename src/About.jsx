@@ -5,6 +5,42 @@ import {
   MapPin, Calendar, Award, ChevronRight, Github,
 } from "lucide-react";
 
+/* ── Dynamic duration calculator ── */
+const calcDuration = (durationStr) => {
+  // Expects format like "06/2024 – Present" or "03/2024 – 04/2024"
+  const parts = durationStr.split(/\s*[–-]\s*/);
+  if (!parts[1] || parts[1].trim().toLowerCase() !== "present") return durationStr;
+
+  const [startMonth, startYear] = parts[0].trim().split("/").map(Number);
+  const now = new Date();
+  const today = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+
+  const start = new Date(startYear, startMonth - 1, 1);
+  const end   = new Date(today.year, today.month - 1, today.day);
+
+  let years  = today.year  - startYear;
+  let months = today.month - startMonth;
+  let days   = today.day   - 1; // started on day 1
+
+  if (days < 0) {
+    months -= 1;
+    const prevMonth = new Date(today.year, today.month - 1, 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0) {
+    years  -= 1;
+    months += 12;
+  }
+
+  const parts2 = [];
+  if (years  > 0) parts2.push(`${years} yr${years  > 1 ? "s" : ""}`);
+  if (months > 0) parts2.push(`${months} mo`);
+  if (days   > 0) parts2.push(`${days} day${days > 1 ? "s" : ""}`);
+
+  const label = parts2.length ? parts2.join(" ") : "< 1 day";
+  return `${parts[0].trim()} – Present (${label})`;
+};
+
 /* ── Tiny helpers ── */
 const Tag = ({ children, theme }) => (
   <span style={{
@@ -35,57 +71,64 @@ const SectionHeading = ({ children, theme }) => (
 );
 
 /* ── Experience card ── */
-const ExpCard = ({ exp, theme, isDarkMode }) => (
-  <div style={{
-    background: theme.card,
-    border: `1px solid ${theme.border}`,
-    borderRadius: "16px",
-    padding: "1.75rem",
-    marginBottom: "1.25rem",
-    backdropFilter: "blur(12px)",
-    transition: "transform 0.25s ease, box-shadow 0.25s ease",
-  }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.transform = "translateY(-3px)";
-      e.currentTarget.style.boxShadow = `0 20px 48px ${theme.shadow}`;
+const ExpCard = ({ exp, theme, isDarkMode }) => {
+  const displayDuration = calcDuration(exp.duration);
+
+  return (
+    <div style={{
+      background: theme.card,
+      border: `1px solid ${theme.border}`,
+      borderRadius: "16px",
+      padding: "1.75rem",
+      marginBottom: "1.25rem",
+      backdropFilter: "blur(12px)",
+      transition: "transform 0.25s ease, box-shadow 0.25s ease",
     }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform = "translateY(0)";
-      e.currentTarget.style.boxShadow = "none";
-    }}
-  >
-    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.85rem" }}>
-      <div>
-        <p style={{ fontSize: "0.78rem", fontWeight: 600, color: theme.accent, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>
-          {exp.role}
-        </p>
-        <a href={exp.website} target="_blank" rel="noopener noreferrer"
-          style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1.15rem", color: theme.text, display: "flex", alignItems: "center", gap: "0.4rem" }}
-        >
-          {exp.company} <ExternalLink size={14} style={{ color: theme.textLight }} />
-        </a>
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-3px)";
+        e.currentTarget.style.boxShadow = `0 20px 48px ${theme.shadow}`;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.85rem" }}>
+        <div>
+          <p style={{ fontSize: "0.78rem", fontWeight: 600, color: theme.accent, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>
+            {exp.role}
+          </p>
+          <a href={exp.website} target="_blank" rel="noopener noreferrer"
+            style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1.15rem", color: theme.text, display: "flex", alignItems: "center", gap: "0.4rem" }}
+          >
+            {exp.company} <ExternalLink size={14} style={{ color: theme.textLight }} />
+          </a>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
+        {[{ Icon: Calendar, text: displayDuration }, { Icon: MapPin, text: exp.location }].map(({ Icon, text }) => (
+          <span key={text} style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.82rem", color: theme.textLight }}>
+            <Icon size={13} /> {text}
+          </span>
+        ))}
+      </div>
+
+      <ul style={{ marginBottom: "1.25rem" }}>
+        {exp.achievements.map((a, i) => (
+          <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.5rem", color: theme.textLight, fontSize: "0.88rem", lineHeight: 1.6 }}>
+            <ChevronRight size={14} style={{ color: theme.accent, marginTop: 3, flexShrink: 0 }} />
+            {a}
+          </li>
+        ))}
+      </ul>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+        {exp.skills.map((s) => <Tag key={s} theme={theme}>{s}</Tag>)}
       </div>
     </div>
-    <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
-      {[{ Icon: Calendar, text: exp.duration }, { Icon: MapPin, text: exp.location }].map(({ Icon, text }) => (
-        <span key={text} style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.82rem", color: theme.textLight }}>
-          <Icon size={13} /> {text}
-        </span>
-      ))}
-    </div>
-    <ul style={{ marginBottom: "1.25rem" }}>
-      {exp.achievements.map((a, i) => (
-        <li key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start", marginBottom: "0.5rem", color: theme.textLight, fontSize: "0.88rem", lineHeight: 1.6 }}>
-          <ChevronRight size={14} style={{ color: theme.accent, marginTop: 3, flexShrink: 0 }} />
-          {a}
-        </li>
-      ))}
-    </ul>
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-      {exp.skills.map((s) => <Tag key={s} theme={theme}>{s}</Tag>)}
-    </div>
-  </div>
-);
+  );
+};
 
 /* ── Education card ── */
 const EduCard = ({ edu, theme }) => (
