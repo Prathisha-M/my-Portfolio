@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import Clarity from "@microsoft/clarity"; 
 import Header from './Header';
 import Footer from './Footer';
 import About from './About';
@@ -77,7 +78,9 @@ export default function App() {
     catch { return false; }
   });
   const [isScrolled, setIsScrolled] = useState(false);
-
+useEffect(() => {
+    Clarity.init("wy2bm6e94l");
+  }, []);
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 14);
     window.addEventListener("scroll", onScroll, { passive: true });

@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@tailwindcss/vite": "^4.0.9",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
