@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, Heart, Code2 } from "lucide-react";
+import { Github, Linkedin, Mail, Heart, Code2, Eye } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const LINKS = [
   { label: "About",    href: "#about" },
@@ -13,9 +14,23 @@ const SOCIALS = [
   { label: "Email",    href: "mailto:prathishamurugesan@gmail.com",      Icon: Mail,     color: "#ff7070" },
 ];
 
+function useVisitorCount() {
+  const [count, setCount] = useState(null);
+
+  useEffect(() => {
+    fetch("https://api.counterapi.dev/v1/prathisha-portfolio/visits/up")
+      .then((r) => r.json())
+      .then((d) => setCount(d.count))
+      .catch(() => {});
+  }, []);
+
+  return count;
+}
+
 export default function Footer({ isDarkMode, theme }) {
   const year = new Date().getFullYear();
   const border = isDarkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+  const visitorCount = useVisitorCount();
 
   return (
     <footer style={{
@@ -127,9 +142,33 @@ export default function Footer({ isDarkMode, theme }) {
             <Heart size={13} style={{ color: theme.highlight || "#ff7070", fill: theme.highlight || "#ff7070" }} />
             <span>in Chennai</span>
           </p>
-          <span style={{ fontSize: "0.78rem", color: theme.textLight }}>
-            Built with React + Vite
-          </span>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
+            {/* Live visitor count */}
+            {visitorCount !== null && (
+              <span style={{
+                fontSize: "0.78rem",
+                color: theme.textLight,
+                display: "flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                background: isDarkMode ? "rgba(139,130,255,0.1)" : "rgba(96,86,255,0.07)",
+                border: `1px solid ${isDarkMode ? "rgba(139,130,255,0.2)" : "rgba(96,86,255,0.15)"}`,
+                borderRadius: "20px",
+                padding: "3px 10px",
+              }}>
+                <Eye size={12} style={{ color: theme.accent }} />
+                <span style={{ color: theme.accent, fontWeight: 500 }}>
+                  {visitorCount.toLocaleString()}
+                </span>
+                <span>visits</span>
+              </span>
+            )}
+
+            <span style={{ fontSize: "0.78rem", color: theme.textLight }}>
+              Built with React + Vite
+            </span>
+          </div>
         </div>
       </div>
     </footer>
