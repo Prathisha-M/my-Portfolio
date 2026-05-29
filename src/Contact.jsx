@@ -4,13 +4,23 @@ import { Github, Linkedin, Mail, Copy, Check, ArrowRight } from "lucide-react";
 
 const EMAIL = "prathishamurugesan@gmail.com";
 
+const isMobileDevice = () =>
+  /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+    navigator.userAgent
+  );
+
+const getEmailHref = () =>
+  isMobileDevice()
+    ? `mailto:${EMAIL}`
+    : `https://mail.google.com/mail/?view=cm&to=${EMAIL}`;
+
 const CHANNELS = [
   {
     Icon: Mail,
     label: "Email",
     value: EMAIL,
     sub: "Fastest response",
-    href: `mailto:${EMAIL}`,
+    getHref: getEmailHref,
     color: "#ff7070",
     bg: "rgba(255,112,112,0.10)",
   },
@@ -29,8 +39,9 @@ const CHANNELS = [
     value: "Prathisha-M",
     sub: "Check out my code",
     href: "https://github.com/Prathisha-M",
-    color: isDark => isDark ? "#c9d1d9" : "#24292e",
-    bg: isDark => isDark ? "rgba(201,209,217,0.08)" : "rgba(36,41,46,0.07)",
+    color: (isDark) => (isDark ? "#c9d1d9" : "#24292e"),
+    bg: (isDark) =>
+      isDark ? "rgba(201,209,217,0.08)" : "rgba(36,41,46,0.07)",
   },
 ];
 
@@ -53,7 +64,6 @@ export default function Contact({ theme, isDarkMode }) {
       overflow: "hidden",
       fontFamily: "'DM Sans', sans-serif",
     }}>
-      {/* Glow blobs */}
       <div style={{
         position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)",
         width: 500, height: 240,
@@ -62,7 +72,6 @@ export default function Contact({ theme, isDarkMode }) {
       }} />
 
       <div style={{ maxWidth: 700, margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={{
             display: "inline-block",
@@ -92,15 +101,18 @@ export default function Contact({ theme, isDarkMode }) {
           </p>
         </div>
 
-        {/* Contact cards */}
         <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginBottom: "2rem" }}>
-          {CHANNELS.map(({ Icon, label, value, sub, href, color: rawColor, bg: rawBg }) => {
+          {CHANNELS.map(({ Icon, label, value, sub, href: staticHref, getHref, color: rawColor, bg: rawBg }) => {
             const color = typeof rawColor === "function" ? rawColor(isDarkMode) : rawColor;
             const bg    = typeof rawBg    === "function" ? rawBg(isDarkMode)    : rawBg;
-            const isEmail = label === "Email";
+            const href  = getHref ? getHref() : staticHref;
 
             return (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+              <a
+                key={label}
+                href={href}
+                // target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: "flex", alignItems: "center", gap: "1rem",
                   padding: "1.25rem 1.5rem",
@@ -144,7 +156,6 @@ export default function Contact({ theme, isDarkMode }) {
           })}
         </div>
 
-        {/* Copy email CTA */}
         <div style={{ textAlign: "center" }}>
           <button onClick={copy} style={{
             display: "inline-flex", alignItems: "center", gap: "0.6rem",
