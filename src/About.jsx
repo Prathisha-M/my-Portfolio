@@ -5,25 +5,32 @@ import {
   MapPin, Calendar, Award, ChevronRight, Github,
 } from "lucide-react";
 
-/* ── Dynamic duration calculator ── */
 const calcDuration = (durationStr) => {
-  // Expects format like "06/2024 – Present" or "03/2024 – 04/2024"
   const parts = durationStr.split(/\s*[–-]\s*/);
   if (!parts[1] || parts[1].trim().toLowerCase() !== "present") return durationStr;
 
-  const [startMonth, startYear] = parts[0].trim().split("/").map(Number);
+  const dateNums = parts[0].trim().split("/").map(Number);
+
+  let startDay, startMonth, startYear;
+  if (dateNums.length === 3) {
+    // DD/MM/YYYY
+    [startDay, startMonth, startYear] = dateNums;
+  } else {
+    // MM/YYYY (assume the 1st of the month)
+    [startMonth, startYear] = dateNums;
+    startDay = 1;
+  }
+
   const now = new Date();
   const today = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
 
-  const start = new Date(startYear, startMonth - 1, 1);
-  const end   = new Date(today.year, today.month - 1, today.day);
-
   let years  = today.year  - startYear;
   let months = today.month - startMonth;
-  let days   = today.day   - 1; // started on day 1
+  let days   = today.day   - startDay;
 
   if (days < 0) {
     months -= 1;
+    // number of days in the month just before "today"
     const prevMonth = new Date(today.year, today.month - 1, 0);
     days += prevMonth.getDate();
   }
@@ -244,7 +251,7 @@ export default function About({ theme, isDarkMode }) {
       id: 1,
       company: "SmartZEN Solutions Private Limited",
       role: "Software Developer",
-      duration: "06/2024 – Present",
+      duration: "18/06/2024 – Present",
       location: "Chennai, India",
       website: "https://smartzensolutions.com/",
       achievements: [
@@ -274,7 +281,7 @@ export default function About({ theme, isDarkMode }) {
   ];
 
   const education = [
-    { degree: "Master of Technology", field: "Information Technology", institution: "CSI Institute of Technology", duration: "07/2024 – 06/2026", status: "Completed", grade: "90%" },
+    { degree: "Master of Technology", field: "Information Technology", institution: "CSI Institute of Technology", duration: "07/2024 – 07/2026", status: "Completed", grade: "90%" },
     { degree: "Bachelor of Engineering", field: "Computer Science", institution: "Loyola Institute of Technology and Science", duration: "07/2020 – 06/2024", status: "Completed", grade: "86%" },
     { degree: "12th (Higher Secondary)", field: "Computer Science", institution: "Vivekananda Kendra Matric Hr. Sec School", duration: "06/2019 – 05/2020", status: "Completed", grade: "70%" },
     { degree: "10th SSLC", field: null, institution: "Annai Matric Hr. Sec School", duration: "06/2017 – 05/2018", status: "Completed", grade: "88%" },
