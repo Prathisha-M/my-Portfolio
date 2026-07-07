@@ -50,6 +50,20 @@ const Skills = ({ theme, isDarkMode }) => {
       ],
     },
     {
+      id: "devops",
+      title: "DevOps & Deployment",
+      icon: "🛰️",
+      gradient: ["#06b6d4", "#0ea5e9"],
+      skills: [
+        { name: "OTA Updates", emoji: "📦", level: 88 },
+        { name: "CodePush", emoji: "🔁", level: 85 },
+        { name: "Self-Hosted Deploy Server", emoji: "🖥️", level: 84 },
+        { name: "FTP Automation", emoji: "📤", level: 82 },
+        { name: "Bundle Management", emoji: "🧩", level: 86 },
+        { name: "Release Scripting", emoji: "📜", level: 83 },
+      ],
+    },
+    {
       id: "languages",
       title: "Languages",
       icon: "💻",
@@ -89,7 +103,7 @@ const Skills = ({ theme, isDarkMode }) => {
 
   const stats = [
     { number: "7+", label: "Apps Deployed", icon: "📱" },
-    { number: "25+", label: "Technologies", icon: "🛠️" },
+    { number: "30+", label: "Technologies", icon: "🛠️" },
     { number: "2+", label: "Years Exp.", icon: "⏱️" },
     { number: "∞", label: "Still Learning", icon: "🚀" },
   ];

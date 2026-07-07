@@ -8,6 +8,7 @@ import SmartLaundryBanner from "./assets/SmartLaundryBanner.jpeg";
 import SmartLaundryBusinessBanner from "./assets/SmartLaundryBusinessBanner.jpeg";
 import SmartMedPlus from "./assets/SmartMedPlus.png";
 import TPVBanner from "./assets/TPVBanner.jpg";
+import Zenpush from "./assets/Zenpush.png";
 import CollegeBusBanner from "./assets/CollegeBusBanner.jpg";
 import apple from "./assets/apple.png";
 import play from "./assets/play.png";
@@ -71,8 +72,27 @@ const SMP_SCREENSHOTS = [
 ];
 
 const PROJECTS = [
-  {
+    {
     id: 1,
+    title: "ZenPush",
+    tagline: "Self-hosted OTA update system",
+    description:
+      "ZenPush is a self-hosted over-the-air update server that pushes live JavaScript bundle updates to React Native apps without requiring a full Play Store or App Store release. It manages rollouts across multiple production apps through an automated FTP/HTTP upload workflow.",
+    category: "tool",
+    features: [
+      "CodePush-style OTA updates for React Native apps",
+      "Node.js deployment script for bundle packaging & upload",
+      "FTP/HTTP upload workflow to a self-hosted deployment server",
+      "Manages rollouts across multiple apps (Smart Iron Business, Smart Iron Xpress, Smart Mandap)",
+      "Native module handling instant restart to apply new bundles",
+    ],
+    tech: ["Node.js", "Express.js", "FTP", "Kotlin", "REST API", "Git"],
+    icon: "🚀",
+    image: Zenpush,
+    accent: "#06b6d4",
+  },
+  {
+    id: 2,
     title: "Smart Mandap",
     tagline: "Wedding venue booking made simple",
     description:
@@ -91,7 +111,7 @@ const PROJECTS = [
     accent: "#b91c1c",
   },
   {
-    id: 2,
+    id: 3,
     title: "Smart Fresh Basket",
     tagline: "Grocery delivery made easy",
     description:
@@ -111,7 +131,7 @@ const PROJECTS = [
     accent: "#2ec05a",
   },
   {
-    id: 3,
+    id: 4,
     title: "Smart Iron Business",
     tagline: "Vendor & delivery management",
     description:
@@ -130,7 +150,7 @@ const PROJECTS = [
     accent: "#f97316",
   },
   {
-    id: 4,
+    id: 5,
     title: "Smart Iron Xpress",
     tagline: "Customer-facing ironing app",
     description:
@@ -149,7 +169,7 @@ const PROJECTS = [
     accent: "#6056ff",
   },
   {
-    id: 5,
+    id: 6,
     title: "Smart Laundry",
     tagline: "On-demand laundry service",
     description:
@@ -168,7 +188,7 @@ const PROJECTS = [
     accent: "#8b5cf6",
   },
   {
-    id: 6,
+    id: 7,
     title: "Smart Laundry Business",
     tagline: "Vendor & delivery management",
     description:
@@ -187,7 +207,7 @@ const PROJECTS = [
     accent: "#8b5cf6",
   },
   {
-    id: 7,
+    id: 8,
     title: "Smart Med+",
     tagline: "Doctor booking & healthcare at your fingertips",
     description:
@@ -207,7 +227,7 @@ const PROJECTS = [
     accent: "#0ea5e9",
   },
   {
-    id: 8,
+    id: 9,
     title: "TPV",
     tagline: "Business networking platform",
     description:
@@ -225,23 +245,23 @@ const PROJECTS = [
     image: TPVBanner,
     accent: "#ec4899",
   },
-  // {
-  //   id: 9,
-  //   title: "College Bus Tracking",
-  //   tagline: "Real-time campus transit",
-  //   description:
-  //     "Android app for real-time college bus tracking with dual login for drivers and students, proximity alerts, and Google Maps integration.",
-  //   category: "mobile",
-  //   features: [
-  //     "Real-time tracking with Google Maps",
-  //     "Dual login: drivers & students",
-  //     "Push proximity alerts",
-  //     "User-friendly alert system",
-  //   ],
-  //   tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
-  //   image: CollegeBusBanner,
-  //   accent: "#f59e0b",
-  // },
+  {
+    id: 10,
+    title: "College Bus Tracking",
+    tagline: "Real-time campus transit",
+    description:
+      "Android app for real-time college bus tracking with dual login for drivers and students, proximity alerts, and Google Maps integration.",
+    category: "mobile",
+    features: [
+      "Real-time tracking with Google Maps",
+      "Dual login: drivers & students",
+      "Push proximity alerts",
+      "User-friendly alert system",
+    ],
+    tech: ["Android Studio", "Firebase", "Google Maps API", "Java"],
+    image: CollegeBusBanner,
+    accent: "#f59e0b",
+  },
 ];
 
 // ─── Screenshot Carousel Modal ────────────────────────────────────────────────
@@ -586,12 +606,26 @@ const ProjectCard = ({ project, isDarkMode, theme }) => {
           onMouseEnter={() => setImgHov(true)}
           onMouseLeave={() => setImgHov(false)}
         >
-          <img src={project.image} alt={project.title} style={{
-            width: "100%", height: "100%",
-            transform: imgHov ? "scale(1.06)" : "scale(1)",
-            transition: "transform 0.55s ease",
-            filter: imgHov ? "brightness(0.7)" : "brightness(1)",
-          }} />
+          {project.image ? (
+            <img src={project.image} alt={project.title} style={{
+              width: "100%", height: "100%",
+              transform: imgHov ? "scale(1.06)" : "scale(1)",
+              transition: "transform 0.55s ease",
+              filter: imgHov ? "brightness(0.7)" : "brightness(1)",
+            }} />
+          ) : (
+            <div style={{
+              width: "100%", height: "100%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: `linear-gradient(135deg, ${project.accent}30, ${project.accent}08)`,
+              transform: imgHov ? "scale(1.06)" : "scale(1)",
+              transition: "transform 0.55s ease",
+            }}>
+              <span style={{ fontSize: "3.2rem", filter: imgHov ? "brightness(0.8)" : "none" }}>
+                {project.icon || "📦"}
+              </span>
+            </div>
+          )}
           <div style={{
             position: "absolute", inset: 0,
             background: `linear-gradient(to top, ${project.accent}cc 0%, transparent 50%)`,
