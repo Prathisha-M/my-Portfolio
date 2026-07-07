@@ -474,7 +474,7 @@ export default function About({ theme, isDarkMode }) {
               </div>
               <div style={{ marginTop: "1.2rem", padding: "0.7rem", borderRadius: "10px", background: `${theme.accent}12` }}>
                 <p style={{ fontSize: "0.72rem", color: theme.accent, fontWeight: 700, textAlign: "center" }}>
-                  6+ Apps Deployed 🚀
+                  8+ Apps Deployed 🚀
                 </p>
               </div>
             </div>

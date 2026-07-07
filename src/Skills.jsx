@@ -1,5 +1,46 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
+import {
+  Palette,
+  Zap,
+  Atom,
+  Smartphone,
+  Wind,
+  Settings2,
+  Leaf,
+  Rocket,
+  Link2,
+  KeyRound,
+  Radio,
+  RefreshCw,
+  Database,
+  Flame,
+  Table2,
+  MapPin,
+  Send,
+  FileJson,
+  Radar,
+  PackageCheck,
+  RotateCw,
+  Server,
+  UploadCloud,
+  Boxes,
+  Terminal,
+  Code,
+  Coffee,
+  FileCode2,
+  Binary,
+  Cpu,
+  BrainCircuit,
+  Brain,
+  Sparkles,
+  MessageSquare,
+  Bot,
+  Wrench,
+  Github,
+  Apple,
+  Code2,
+} from "lucide-react";
 
 const Skills = ({ theme, isDarkMode }) => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
@@ -11,101 +52,101 @@ const Skills = ({ theme, isDarkMode }) => {
     {
       id: "frontend",
       title: "Frontend",
-      icon: "🎨",
+      Icon: Palette,
       gradient: ["#f97316", "#fb923c"],
       skills: [
-        { name: "HTML / CSS", emoji: "🌐", level: 92 },
-        { name: "JavaScript", emoji: "⚡", level: 88 },
-        { name: "React", emoji: "⚛️", level: 90 },
-        { name: "React Native", emoji: "📱", level: 92 },
-        { name: "Tailwind CSS", emoji: "🎨", level: 85 },
+        { name: "HTML / CSS", Icon: Code, level: 92 },
+        { name: "JavaScript", Icon: Zap, level: 88 },
+        { name: "React", Icon: Atom, level: 90 },
+        { name: "React Native", Icon: Smartphone, level: 92 },
+        { name: "Tailwind CSS", Icon: Wind, level: 85 },
       ],
     },
     {
       id: "backend",
       title: "Backend",
-      icon: "⚙️",
+      Icon: Settings2,
       gradient: ["#3b82f6", "#6366f1"],
       skills: [
-        { name: "Node.js", emoji: "🌿", level: 87 },
-        { name: "Express.js", emoji: "🚀", level: 85 },
-        { name: "REST APIs", emoji: "🔗", level: 88 },
-        { name: "Authentication", emoji: "🔑", level: 83 },
-        { name: "WebSocket", emoji: "📡", level: 78 },
-        { name: "API Integration", emoji: "🔄", level: 86 },
+        { name: "Node.js", Icon: Leaf, level: 87 },
+        { name: "Express.js", Icon: Rocket, level: 85 },
+        { name: "REST APIs", Icon: Link2, level: 88 },
+        { name: "Authentication", Icon: KeyRound, level: 83 },
+        { name: "WebSocket", Icon: Radio, level: 78 },
+        { name: "API Integration", Icon: RefreshCw, level: 86 },
       ],
     },
     {
       id: "database",
       title: "Database & Cloud",
-      icon: "🗄️",
+      Icon: Database,
       gradient: ["#10b981", "#059669"],
       skills: [
-        { name: "MySQL", emoji: "🐬", level: 84 },
-        { name: "Firebase", emoji: "🔥", level: 86 },
-        { name: "SQL", emoji: "🗄️", level: 82 },
-        { name: "Google Maps API", emoji: "🗺️", level: 88 },
-        { name: "Postman", emoji: "📩", level: 90 },
-        { name: "Swagger", emoji: "📜", level: 80 },
+        { name: "MySQL", Icon: Database, level: 84 },
+        { name: "Firebase", Icon: Flame, level: 86 },
+        { name: "SQL", Icon: Table2, level: 82 },
+        { name: "Google Maps API", Icon: MapPin, level: 88 },
+        { name: "Postman", Icon: Send, level: 90 },
+        { name: "Swagger", Icon: FileJson, level: 80 },
       ],
     },
     {
       id: "devops",
       title: "DevOps & Deployment",
-      icon: "🛰️",
+      Icon: Radar,
       gradient: ["#06b6d4", "#0ea5e9"],
       skills: [
-        { name: "OTA Updates", emoji: "📦", level: 88 },
-        { name: "CodePush", emoji: "🔁", level: 85 },
-        { name: "Self-Hosted Deploy Server", emoji: "🖥️", level: 84 },
-        { name: "FTP Automation", emoji: "📤", level: 82 },
-        { name: "Bundle Management", emoji: "🧩", level: 86 },
-        { name: "Release Scripting", emoji: "📜", level: 83 },
+        { name: "OTA Updates", Icon: PackageCheck, level: 88 },
+        { name: "CodePush", Icon: RotateCw, level: 85 },
+        { name: "Self-Hosted Deploy Server", Icon: Server, level: 84 },
+        { name: "FTP Automation", Icon: UploadCloud, level: 82 },
+        { name: "Bundle Management", Icon: Boxes, level: 86 },
+        { name: "Release Scripting", Icon: Terminal, level: 83 },
       ],
     },
     {
       id: "languages",
       title: "Languages",
-      icon: "💻",
+      Icon: Code,
       gradient: ["#8b5cf6", "#a78bfa"],
       skills: [
-        { name: "Java", emoji: "☕", level: 80 },
-        { name: "Python", emoji: "🐍", level: 75 },
-        { name: "C", emoji: "🔵", level: 72 },
-        { name: "C++", emoji: "🚀", level: 70 },
+        { name: "Java", Icon: Coffee, level: 80 },
+        { name: "Python", Icon: FileCode2, level: 75 },
+        { name: "C", Icon: Binary, level: 72 },
+        { name: "C++", Icon: Cpu, level: 70 },
       ],
     },
     {
       id: "ai",
       title: "AI & Prompt Eng.",
-      icon: "🤖",
+      Icon: BrainCircuit,
       gradient: ["#ec4899", "#f43f5e"],
       skills: [
-        { name: "Prompt Engineering", emoji: "🧠", level: 85 },
-        { name: "Claude AI", emoji: "✨", level: 82 },
-        { name: "ChatGPT", emoji: "💬", level: 84 },
-        { name: "AI-Assisted Dev", emoji: "🤖", level: 86 },
+        { name: "Prompt Engineering", Icon: Brain, level: 85 },
+        { name: "Claude AI", Icon: Sparkles, level: 82 },
+        { name: "ChatGPT", Icon: MessageSquare, level: 84 },
+        { name: "AI-Assisted Dev", Icon: Bot, level: 86 },
       ],
     },
     {
       id: "tools",
       title: "Tools & VCS",
-      icon: "🛠️",
+      Icon: Wrench,
       gradient: ["#f59e0b", "#eab308"],
       skills: [
-        { name: "Git & GitHub", emoji: "🐙", level: 88 },
-        { name: "Android Studio", emoji: "🤖", level: 85 },
-        { name: "Xcode", emoji: "🍎", level: 80 },
-        { name: "VS Code", emoji: "🔷", level: 92 },
+        { name: "Git & GitHub", Icon: Github, level: 88 },
+        { name: "Android Studio", Icon: Smartphone, level: 85 },
+        { name: "Xcode", Icon: Apple, level: 80 },
+        { name: "VS Code", Icon: Code2, level: 92 },
       ],
     },
   ];
 
   const stats = [
-    { number: "7+", label: "Apps Deployed", icon: "📱" },
-    { number: "30+", label: "Technologies", icon: "🛠️" },
-    { number: "2+", label: "Years Exp.", icon: "⏱️" },
-    { number: "∞", label: "Still Learning", icon: "🚀" },
+    { number: "8+", label: "Apps Deployed", Icon: Smartphone },
+    { number: "30+", label: "Technologies", Icon: Wrench },
+    { number: "2+", label: "Years Exp.", Icon: Rocket },
+    { number: "∞", label: "Still Learning", Icon: Sparkles },
   ];
 
   useEffect(() => {
@@ -285,8 +326,15 @@ const Skills = ({ theme, isDarkMode }) => {
                   : "0 4px 16px rgba(0,0,0,0.06)";
               }}
             >
-              <div style={{ fontSize: "1.8rem", marginBottom: "0.4rem" }}>
-                {stat.icon}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "0.4rem",
+                  color: theme.text,
+                }}
+              >
+                <stat.Icon size={26} strokeWidth={1.8} />
               </div>
               <div
                 style={{
@@ -325,6 +373,7 @@ const Skills = ({ theme, isDarkMode }) => {
           {skillCategories.map((category, catIdx) => {
             const isActive = activeCategory === category.id;
             const [c1, c2] = category.gradient;
+            const CategoryIcon = category.Icon;
 
             return (
               <div
@@ -387,12 +436,12 @@ const Skills = ({ theme, isDarkMode }) => {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "1.3rem",
                       boxShadow: `0 4px 14px ${c1}40`,
                       flexShrink: 0,
+                      color: "#fff",
                     }}
                   >
-                    {category.icon}
+                    <CategoryIcon size={22} strokeWidth={2} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <h3
@@ -452,6 +501,7 @@ const Skills = ({ theme, isDarkMode }) => {
                   {category.skills.map((skill) => {
                     const key = `${category.id}-${skill.name}`;
                     const isHovered = hoveredSkill === key;
+                    const SkillIcon = skill.Icon;
 
                     return (
                       <div
@@ -488,7 +538,7 @@ const Skills = ({ theme, isDarkMode }) => {
                           letterSpacing: "0.01em",
                         }}
                       >
-                        <span style={{ fontSize: "0.95em" }}>{skill.emoji}</span>
+                        <SkillIcon size={15} strokeWidth={2} />
                         {skill.name}
                       </div>
                     );
@@ -508,60 +558,67 @@ const Skills = ({ theme, isDarkMode }) => {
                       }`,
                     }}
                   >
-                    {category.skills.map((skill, si) => (
-                      <div
-                        key={skill.name}
-                        style={{ marginBottom: si < category.skills.length - 1 ? "0.85rem" : 0 }}
-                      >
+                    {category.skills.map((skill, si) => {
+                      const SkillIcon = skill.Icon;
+                      return (
                         <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginBottom: "0.3rem",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "0.8rem",
-                              fontWeight: 600,
-                              color: theme.text,
-                            }}
-                          >
-                            {skill.emoji} {skill.name}
-                          </span>
-                          <span
-                            style={{
-                              fontSize: "0.78rem",
-                              fontWeight: 700,
-                              color: c1,
-                            }}
-                          >
-                            {skill.level}%
-                          </span>
-                        </div>
-                        <div
-                          style={{
-                            height: "5px",
-                            borderRadius: "999px",
-                            background: isDarkMode
-                              ? "rgba(255,255,255,0.08)"
-                              : "rgba(0,0,0,0.07)",
-                            overflow: "hidden",
-                          }}
+                          key={skill.name}
+                          style={{ marginBottom: si < category.skills.length - 1 ? "0.85rem" : 0 }}
                         >
                           <div
                             style={{
-                              height: "100%",
-                              width: `${skill.level}%`,
-                              background: `linear-gradient(90deg, ${c1}, ${c2})`,
-                              borderRadius: "999px",
-                              animation: "growBar 0.9s cubic-bezier(.4,0,.2,1) both",
-                              animationDelay: `${si * 0.07}s`,
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginBottom: "0.3rem",
                             }}
-                          />
+                          >
+                            <span
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.4rem",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                                color: theme.text,
+                              }}
+                            >
+                              <SkillIcon size={14} strokeWidth={2} />
+                              {skill.name}
+                            </span>
+                            <span
+                              style={{
+                                fontSize: "0.78rem",
+                                fontWeight: 700,
+                                color: c1,
+                              }}
+                            >
+                              {skill.level}%
+                            </span>
+                          </div>
+                          <div
+                            style={{
+                              height: "5px",
+                              borderRadius: "999px",
+                              background: isDarkMode
+                                ? "rgba(255,255,255,0.08)"
+                                : "rgba(0,0,0,0.07)",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div
+                              style={{
+                                height: "100%",
+                                width: `${skill.level}%`,
+                                background: `linear-gradient(90deg, ${c1}, ${c2})`,
+                                borderRadius: "999px",
+                                animation: "growBar 0.9s cubic-bezier(.4,0,.2,1) both",
+                                animationDelay: `${si * 0.07}s`,
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
