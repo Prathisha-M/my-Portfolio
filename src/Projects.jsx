@@ -82,6 +82,7 @@ const PROJECTS = [
     features: [
       "CodePush-style OTA updates for React Native apps",
       "Node.js deployment script for bundle packaging & upload",
+      "Recursive folder-tree selection using DFS traversal to auto-detect and select nested files/subfolders",
       "FTP/HTTP upload workflow to a self-hosted deployment server",
       "Manages rollouts across multiple apps (Smart Iron Business, Smart Iron Xpress, Smart Mandap)",
       "Native module handling instant restart to apply new bundles",
