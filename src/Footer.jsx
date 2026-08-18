@@ -20,7 +20,12 @@ function useVisitorCount() {
   useEffect(() => {
     fetch("https://api.counterapi.dev/v1/prathisha-portfolio/visits/up")
       .then((r) => r.json())
-      .then((d) => setCount(d.count))
+      .then((d) => {
+        // Guard against unexpected/changed API response shapes
+        if (typeof d?.count === "number") {
+          setCount(d.count);
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -145,7 +150,7 @@ export default function Footer({ isDarkMode, theme }) {
 
           <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}>
             {/* Live visitor count */}
-            {visitorCount !== null && (
+            {typeof visitorCount === "number" && (
               <span style={{
                 fontSize: "0.78rem",
                 color: theme.textLight,
