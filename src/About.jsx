@@ -4,6 +4,7 @@ import {
   ExternalLink, Code, Smartphone, Server, Database,
   MapPin, Calendar, Award, ChevronRight, Github,
 } from "lucide-react";
+import meVideo from "./assets/Me.mp4";
 
 const calcDuration = (durationStr) => {
   const parts = durationStr.split(/\s*[–-]\s*/);
@@ -224,6 +225,114 @@ export default function About({ theme, isDarkMode }) {
   const [roleIdx, setRoleIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
+
+  /* ── Mouse-controlled eye-tracking video ── */
+  const videoRef = useRef(null);
+  const targetTimeRef = useRef(0);   // where the mouse wants the video to be
+  const currentTimeRef = useRef(0);  // where the video actually is (eased toward target)
+  const rafIdRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const resetToStart = () => {
+      targetTimeRef.current = 0;
+      currentTimeRef.current = 0;
+      try {
+        video.currentTime = 0;
+      } catch {
+        // duration/metadata may not be ready yet; loadedmetadata handles it below
+      }
+    };
+
+    // Force the browser to actually decode a frame. Many browsers (Safari/iOS
+    // especially, some Chrome builds too) leave a <video> at readyState 0 with
+    // nothing painted until play() has run at least once — so a currentTime
+    // seek before that has no visible effect. Since the video is muted, a
+    // brief play() is allowed without a user gesture; we pause it right away
+    // so nothing actually plays on screen.
+    const primeVideo = () => {
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(() => {
+            video.pause();
+            resetToStart();
+          })
+          .catch(() => {
+            // Autoplay was blocked for some reason — fall back to a plain seek.
+            resetToStart();
+          });
+      } else {
+        video.pause();
+        resetToStart();
+      }
+    };
+
+    video.load();
+    resetToStart();
+
+    const handleLoadedMetadata = () => {
+      primeVideo();
+    };
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    // If metadata is already loaded by the time this effect runs, prime now.
+    if (video.readyState >= 1) {
+      primeVideo();
+    }
+
+    // Track mouse position anywhere in the viewport → target time (0–4s)
+    const handleMouseMove = (e) => {
+      const duration = video.duration && !isNaN(video.duration) ? video.duration : 4;
+      const progress = Math.min(Math.max(e.clientX / window.innerWidth, 0), 1);
+      targetTimeRef.current = progress * duration;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // A normal exported MP4 only has keyframes every second or so, not on
+    // every frame. If we fire a new currentTime seek before the browser has
+    // finished decoding the previous one, seeks queue up and the video
+    // visibly stutters/lags behind the mouse. So: never issue a new seek
+    // while one is still in flight (video.seeking === true), and once a seek
+    // finishes, resync our tracked position to wherever the browser actually
+    // landed (it may snap slightly off the requested time).
+    const handleSeeked = () => {
+      currentTimeRef.current = video.currentTime;
+    };
+    video.addEventListener("seeked", handleSeeked);
+
+    // Smoothly interpolate currentTime toward the target every frame.
+    const animate = () => {
+      const v = videoRef.current;
+      if (v && !isNaN(v.duration) && v.duration > 0) {
+        const diff = targetTimeRef.current - currentTimeRef.current;
+        // Ease toward the target — subtle, fluid following instead of instant jumps.
+        currentTimeRef.current += diff * 0.15;
+
+        const clamped = Math.min(Math.max(currentTimeRef.current, 0), v.duration);
+        currentTimeRef.current = clamped;
+
+        // Only ask the browser to seek if it's not already busy seeking,
+        // and only if the change is big enough to matter.
+        if (!v.seeking && Math.abs(v.currentTime - clamped) > 0.01) {
+          v.currentTime = clamped;
+        }
+
+        // Keep it paused no matter what.
+        if (!v.paused) v.pause();
+      }
+      rafIdRef.current = requestAnimationFrame(animate);
+    };
+    rafIdRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("seeked", handleSeeked);
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, []);
 
   /* typewriter */
   useEffect(() => {
@@ -452,31 +561,28 @@ export default function About({ theme, isDarkMode }) {
             </div>
           </div>
 
-          {/* Floating card visual */}
+          {/* Floating video card — now mouse-controlled instead of autoplay/loop */}
           <div className="hide-mobile" style={{ animation: "scale-in 0.6s ease 0.1s both" }}>
             <div style={{
-              padding: "1.75rem", borderRadius: "20px",
+              borderRadius: "20px",
               background: theme.card, border: `1px solid ${theme.border}`,
               backdropFilter: "blur(16px)",
               width: 220,
+              overflow: "hidden",
             }}>
-              <div style={{ fontSize: "3rem", textAlign: "center", marginBottom: "0.75rem" }}>📱</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
-                {["React Native", "Node.js", "Firebase", "SQL", "Google Maps"].map((s) => (
-                  <div key={s} style={{
-                    display: "flex", alignItems: "center", gap: "0.5rem",
-                    fontSize: "0.8rem", color: theme.textLight, fontWeight: 500,
-                  }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: theme.accent2, flexShrink: 0 }} />
-                    {s}
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginTop: "1.2rem", padding: "0.7rem", borderRadius: "10px", background: `${theme.accent}12` }}>
-                <p style={{ fontSize: "0.72rem", color: theme.accent, fontWeight: 700, textAlign: "center" }}>
-                  8+ Apps Deployed 🚀
-                </p>
-              </div>
+              <video
+                ref={videoRef}
+                src={meVideo}
+                muted
+                playsInline
+                preload="auto"
+                style={{
+                  width: "100%",
+                  height: 260,
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
             </div>
           </div>
         </div>
